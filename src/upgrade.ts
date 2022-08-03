@@ -1,7 +1,7 @@
 /**
  * 更新依赖
  */
-import run from './run'
+import run from '../utils/run.ts'
 
 export default async ({ lock = false }) => {
   console.log('\nChecking pnpm version...')
@@ -17,7 +17,7 @@ export default async ({ lock = false }) => {
   }
 
   if (lock) {
-    function updateVersion(list = Object.keys(this)) {
+    async function updateVersion(list = Object.keys(this)) {
       let updated = false
       for (const pkgName of list) {
         const latestVersion = await run({ cmd: `npm view ${pkgName} version`, stdout: 'piped' })

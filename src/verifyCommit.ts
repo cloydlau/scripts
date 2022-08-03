@@ -1,13 +1,9 @@
-const chalk = require('chalk')
-const msgPath = '.git/COMMIT_EDITMSG'
-const msg = require('fs')
-  .readFileSync(msgPath, 'utf-8')
-  .trim()
+import chalk from "https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js"
 
+const msg = Deno.readTextFileSync('.git/COMMIT_EDITMSG').trim()
 const commitRE = /^(revert: )?(feat|fix|docs|dx|style|refactor|perf|test|workflow|build|ci|chore|types|wip|release)(\(.+\))?: .{1,50}/
 
 if (!commitRE.test(msg)) {
-  console.log()
   console.error(
     `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
       `invalid commit message format.`
@@ -21,5 +17,4 @@ if (!commitRE.test(msg)) {
     )}\n\n` +
     chalk.red(`  See .github/commit-convention.md for more details.\n`)
   )
-  process.exit(1)
 }

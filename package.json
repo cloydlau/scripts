@@ -5,6 +5,9 @@
   "description": "Scripts for personal usage",
   "author": "cloydlau",
   "license": "MIT",
+  "bin": {
+    "cl": "bin/cli.ts"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cloydlau/scripts"
@@ -13,9 +16,6 @@
     "*.{js,ts,tsx,vue,md}": [
       "eslint --fix"
     ]
-  },
-  "devDependencies": {
-    "cac": "latest"
   },
   "scripts": {
     "switch-vue-3": "deno run --allow-run --allow-read --allow-write ./scripts/switch-vue.js 3",
@@ -29,5 +29,11 @@
   },
   "dependencies": {
     "axios": "^0.27.2"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "latest",
+    "eslint": "latest",
+    "husky": "latest",
+    "lint-staged": "latest"
   }
 }

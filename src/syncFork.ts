@@ -1,4 +1,4 @@
-import run from './run'
+import run from '../utils/run.ts'
 
 export default async (downstreams) => {
   for (const k in downstreams) {
