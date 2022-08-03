@@ -1,0 +1,33 @@
+{
+  "name": "@cloydlau/scripts",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Scripts for personal usage",
+  "author": "cloydlau",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cloydlau/scripts"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,vue,md}": [
+      "eslint --fix"
+    ]
+  },
+  "devDependencies": {
+    "cac": "latest"
+  },
+  "scripts": {
+    "switch-vue-3": "deno run --allow-run --allow-read --allow-write ./scripts/switch-vue.js 3",
+    "switch-vue-2.7": "deno run --allow-run --allow-read --allow-write ./scripts/switch-vue.js 2.7",
+    "switch-vue-2": "deno run --allow-run --allow-read --allow-write ./scripts/switch-vue.js 2",
+    "clean": "rd /s /q .\\node_modules",
+    "ri": "npm run clean && pnpm i",
+    "u": "deno run --allow-run scripts/u.js",
+    "r": "node scripts/release.js",
+    "rs": "node scripts/release.js --straightforward"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
