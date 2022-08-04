@@ -1,3 +1,7 @@
+/**
+ * 校验 commit message
+ */
+
 import chalk from "https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js"
 
 const msg = Deno.readTextFileSync('.git/COMMIT_EDITMSG').trim()

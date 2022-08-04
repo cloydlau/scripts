@@ -1,8 +1,9 @@
 /**
- * 搭建 eslint + prettier：
+ * 搭建 eslint：
  *   1. pnpm add husky lint-staged eslint @antfu/eslint-config -D
- *   3. npx husky install
- *   2. npx husky add .husky/pre-commit "npx lint-staged"
+ *   2. npx husky install
+ *   3. npx husky add .husky/commit-msg "cl verifyCommit"
+ *   4. npx husky add .husky/pre-commit "npx lint-staged"
  */
 
 module.exports = {

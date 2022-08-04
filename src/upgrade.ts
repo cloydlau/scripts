@@ -1,9 +1,10 @@
 /**
  * 更新依赖
  */
+
 import run from '../utils/run.ts'
 
-export default async ({ lock = false }) => {
+export default async ({ lock = false, include }) => {
   console.log('\nChecking pnpm version...')
   const curVersion = await run({ cmd: 'pnpm -v', stdout: 'piped' })
   const latestVersion = await run({ cmd: 'npm view pnpm version', stdout: 'piped' })
@@ -17,25 +18,34 @@ export default async ({ lock = false }) => {
   }
 
   if (lock) {
-    async function updateVersion(list = Object.keys(this)) {
+    async function updateVersion(include) {
+      if (include) {
+        include = include.split('|')
+      } else {
+        include = Object.keys(this)
+      }
+
       let updated = false
-      for (const pkgName of list) {
+      for (const pkgName of include) {
         const latestVersion = await run({ cmd: `npm view ${pkgName} version`, stdout: 'piped' })
-        if (['latest', '*'].includes(this[pkgName]) && this[pkgName] !== latestVersion) {
-          console.log(`\n%c${pkgName} 从 ${this[pkgName]} 更新至 ${latestVersion}`, 'color:red;font-weight:bold')
-          this[pkgName] = latestVersion
-          updated = true
-        } else {
-          console.log(`\n${pkgName} 已是最新版`)
+        if (this[pkgName]) {
+          if (['latest', '*'].includes(this[pkgName]) && this[pkgName] !== latestVersion) {
+            console.log(`\n%c${pkgName} 从 ${this[pkgName]} 更新至 ${latestVersion}`, 'color:red;font-weight:bold')
+            this[pkgName] = latestVersion
+            updated = true
+          } else {
+            console.log(`\n%c${pkgName} 已是最新版`, 'color:green;font-weight:bold')
+          }
         }
       }
+
       return updated
     }
 
     const pkg = JSON.parse(Deno.readTextFileSync("./package.json"))
 
-    const dependenciesUpdated = updateVersion.call(pkg.dependencies, list)
-    const devDependenciesUpdated = updateVersion.call(pkg.devDependencies, list)
+    const dependenciesUpdated = updateVersion.call(pkg.dependencies, include)
+    const devDependenciesUpdated = updateVersion.call(pkg.devDependencies, include)
 
     if (dependenciesUpdated || devDependenciesUpdated) {
       Deno.writeTextFileSync("./package.json", JSON.stringify(pkg, null, 2))
