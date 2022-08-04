@@ -5,7 +5,7 @@ const cli = cac('cl')
 
 import clean from '../src/clean.ts'
 cli
-  .command('clean [root]', 'remove node_modules')
+  .command('clean', 'remove node_modules')
   .action((root: string, options) => {
     try {
       clean(options)
@@ -16,7 +16,7 @@ cli
 
 import ri from '../src/ri.ts'
 cli
-  .command('ri [root]', 'remove node_modules and reinstall with pnpm')
+  .command('ri', 'remove node_modules and reinstall with pnpm')
   .action((root: string, options) => {
     try {
       ri(options)
@@ -27,10 +27,10 @@ cli
 
 import upgrade from '../src/upgrade.ts'
 cli
-  .command('upgrade [root]', 'upgrade dependencies')
+  .command('upgrade', 'upgrade dependencies')
   .alias('u')
   .option('--lock', `[boolean] lock version`)
-  .option('--include <dependency>', `[string] update list`)
+  .option('--include <include>', `[string] update list`)
   .action((root: string, options) => {
     try {
       upgrade(options)
@@ -63,16 +63,17 @@ cli
 
 import syncFork from '../src/syncFork.ts'
 cli
-  .command('syncFork <dir>', '[string] 同步下游')
-  .action((dir) => {
+  .command('syncFork <base>', '[string] 同步下游')
+  .option('--dir <dir>', `[string] 目录`)
+  .action((base, options) => {
     try {
-      syncFork({ dir })
+      syncFork(Array.from(options.dir.split('|'), v => base + v))
     } catch (error) {
       Deno.exit(1)
     }
   })
 
-import release from '../src/release.ts'
+/* import release from '../src/release.ts'
 cli
   .command('release', '发版')
   .action((options) => {
@@ -81,7 +82,7 @@ cli
     } catch (error) {
       Deno.exit(1)
     }
-  })
+  }) */
 
 cli.help()
 cli.parse()

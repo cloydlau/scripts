@@ -8,21 +8,15 @@
 
 import parseArgs from 'https://deno.land/x/deno_minimist@v1.0.2/mod.ts'
 import Prompt from 'https://deno.land/x/prompt@v1.0.0/mod.ts'
+import * as semver from "https://deno.land/x/semver/mod.ts"
 import run from '../utils/run.ts'
 
-const args = require('minimist')(process.argv.slice(2))
-const fs = require('fs')
-const path = require('path')
-
-const semver = require('semver')
-const currentVersion = require('../package.json').version
-const pkg = require('../package.json').name
-
+const args = parseArgs(Deno.args)
+const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
+const { version: currentVersion, name } = pkg
 const preId =
   args.preid ||
   (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
-const isDryRun = args.dry
-const straightforward = args.straightforward
 
 const versionIncrements = [
   'patch',
@@ -33,61 +27,57 @@ const versionIncrements = [
 
 const inc = i => semver.inc(currentVersion, i, preId)
 
-async function main() {
+export default async () => {
   let targetVersion = args._[0]
 
-  if (straightforward) {
-    targetVersion = currentVersion
-  } else {
-    if (!targetVersion) {
-      const { release } = await Prompt.prompts([{
-        type: 'select',
-        name: 'release',
-        message: 'Select release type',
-        choices: versionIncrements.map(i => `${i} (${inc(i)})`).concat(['custom'])
-      }])
-
-      if (release === 'custom') {
-        targetVersion = (
-          await Prompt.prompts([{
-            type: 'input',
-            name: 'version',
-            message: 'Input custom version',
-            initial: currentVersion
-          }])
-        ).version
-      } else {
-        targetVersion = release.match(/\((.*)\)/)[1]
-      }
-    }
-
-    if (!semver.valid(targetVersion)) {
-      throw new Error(`invalid target version: ${targetVersion}`)
-    }
-
-    const { yes } = await Prompt.prompts([{
-      type: 'confirm',
-      name: 'yes',
-      message: `Releasing v${targetVersion}. Confirm?`
+  if (!targetVersion) {
+    const { release } = await Prompt.prompts([{
+      type: 'select',
+      name: 'release',
+      message: 'Select release type',
+      choices: versionIncrements.map(i => `${i} (${inc(i)})`).concat(['custom'])
     }])
 
-    if (!yes) {
-      return
-    }
-
-    console.log('\nUpdating version...')
-    updateVersions(targetVersion)
-
-    console.log('\nBuilding...')
-    if (!isDryRun) {
-      await run('pnpm run build')
+    if (release === 'custom') {
+      targetVersion = (
+        await Prompt.prompts([{
+          type: 'input',
+          name: 'version',
+          message: 'Input custom version',
+          initial: currentVersion
+        }])
+      ).version
     } else {
-      console.log(`(skipped)`)
+      targetVersion = release.match(/\((.*)\)/)[1]
     }
   }
 
+  if (!semver.valid(targetVersion)) {
+    throw new Error(`invalid target version: ${targetVersion}`)
+  }
+
+  const { yes } = await Prompt.prompts([{
+    type: 'confirm',
+    name: 'yes',
+    message: `Releasing v${targetVersion}. Confirm?`
+  }])
+
+  if (!yes) {
+    return
+  }
+
+  console.log('\nUpdating version...')
+  updateVersions(targetVersion)
+
+  console.log('\nBuilding...')
+  if (!isDryRun) {
+    await run('pnpm run build')
+  } else {
+    console.log(`(skipped)`)
+  }
+
   console.log('\nPublishing...')
-  await publishPackage(pkg, targetVersion, run)
+  await publishPackage(name, targetVersion, run)
 
   const { stdout } = await run('git diff', { stdout: 'piped' })
   if (stdout) {
@@ -109,19 +99,11 @@ async function main() {
 }
 
 function updateVersions(version) {
-  updatePackage(path.resolve(__dirname, '..'), version)
-}
-
-function updatePackage(pkgRoot, version) {
-  const pkgPath = path.resolve(pkgRoot, 'package.json')
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
   pkg.version = version
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+  Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 }
 
 async function publishPackage(pkgName, version, run) {
-  const releaseTag = semver.prerelease(version) && semver.prerelease(version)[0] || null
-
   console.log(`Publishing ${pkgName}...`)
   await run('npm config delete registry')
   try {
