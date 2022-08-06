@@ -12,17 +12,20 @@ const deps = {
     '@vue/compiler-sfc': 'latest',
     '@vue/test-utils': 'latest',
     'vue': 'latest',
+    'vue-router': 'latest',
   },
   2.7: {
     '@vitejs/plugin-vue2': 'latest',
     '@vue/test-utils': '1',
-    'vue': '^2.7',
+    'vue': '2.7',
+    'vue-router': '3',
   },
   2: {
     '@vue/composition-api': 'latest',
     '@vue/test-utils': '1',
     'vite-plugin-vue2': 'latest',
     'vue': '~2.6',
+    'vue-router': '3',
     'vue-template-compiler': '~2.6',
   },
 }
@@ -38,14 +41,14 @@ if (pkg.devDependencies.vue) {
     || pkg.devDependencies.vue.startsWith('2.7')
     || pkg.devDependencies.vue.startsWith('~2.7')
     || pkg.devDependencies.vue.startsWith('^2.7')))
-    currentVersion = 2.7
+    currentVersion = '2.7'
   else if ((
     pkg.devDependencies.vue.startsWith('2.')
     || pkg.devDependencies.vue.startsWith('~2.')
     || pkg.devDependencies.vue.startsWith('^2.')))
-    currentVersion = 2
+    currentVersion = '2'
   else {
-    currentVersion = 3
+    currentVersion = '3'
   }
 }
 
