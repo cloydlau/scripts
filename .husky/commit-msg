@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-deno run --allow-all ./src/verifyCommit.ts
+npx cl verifyCommit

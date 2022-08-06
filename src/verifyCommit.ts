@@ -1,7 +1,3 @@
-/**
- * 校验 commit message
- */
-
 import chalk from "https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js"
 
 export default () => {
@@ -22,5 +18,6 @@ export default () => {
       )}\n\n` +
       chalk.red(`  See .github/commit-convention.md for more details.\n`)
     )
+    throw Error('invalid commit message format')
   }
 }
