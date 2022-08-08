@@ -1,4 +1,4 @@
-#!/usr/bin/env deno run --allow-all
+#!/usr/bin/env deno run --allow-all --unstable
 
 import { cac } from 'https://unpkg.com/cac/mod.ts'
 const cli = cac('cl')
@@ -40,7 +40,10 @@ cli
   .command('syncFork <dir>', '[string] sync fork')
   .option('--base <base>', `[string] directory base`)
   .action((dir, options) => {
-    syncFork(Array.from(dir.split('|'), v => options.base + v))
+    syncFork(Array.from(dir.split('|'), v => {
+      const value = (options.base ?? '') + v
+      return { name: value, value }
+    }))
   })
 
 import release from '../src/release.ts'

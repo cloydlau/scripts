@@ -1,9 +1,5 @@
-/**
- * 切换 Vue 版本
- */
-
 //import parseArgs from 'https://deno.land/x/deno_minimist@v1.0.2/mod.ts'
-import Prompt from 'https://deno.land/x/prompt@v1.0.0/mod.ts'
+import { Confirm } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 import run from '../utils/run.ts'
 
 const deps = {
@@ -52,13 +48,12 @@ if (pkg.devDependencies.vue) {
   }
 }
 
-export default async (version: targetVersion) => {
+export default async (targetVersion) => {
   if (currentVersion && currentVersion !== targetVersion) {
-    const { yes } = await Prompt.prompts([{
+    const yes = await Confirm.prompt({
       type: 'confirm',
-      name: 'yes',
       message: `当前 Vue 版本为 ${currentVersion}, 是否切换至 ${targetVersion}？`,
-    }])
+    })
     if (!yes)
       return
   }
