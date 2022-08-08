@@ -1,13 +1,5 @@
-/**
- * 发版
- * - pnpm add chalk@^4.1.2 enquirer execa@^4.1.0 minimist semver -D: 需要安装的依赖
- * - "release": "node scripts/release.js": package.json - scripts
- * - pnpm release: 打包 + 发布 + Push + Tag
- */
-
-
 import parseArgs from 'https://deno.land/x/deno_minimist@v1.0.2/mod.ts'
-import Prompt from 'https://deno.land/x/prompt@v1.0.0/mod.ts'
+import { Input, Select, Confirm } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 import * as semver from "https://deno.land/x/semver/mod.ts"
 import run from '../utils/run.ts'
 
@@ -27,57 +19,51 @@ const versionIncrements = [
 
 const inc = i => semver.inc(currentVersion, i, preId)
 
-export default async () => {
-  let targetVersion = args._[0]
+export default async ({ skipBuild = false }) => {
+  const release = await Select.prompt({
+    message: 'Select release type',
+    options: versionIncrements.map(name => ({ name, value: inc(name) })).concat([{ name: 'custom', value: 'custom' }]),
+  })
 
-  if (!targetVersion) {
-    const { release } = await Prompt.prompts([{
-      type: 'select',
-      name: 'release',
-      message: 'Select release type',
-      choices: versionIncrements.map(i => `${i} (${inc(i)})`).concat(['custom'])
-    }])
-
-    if (release === 'custom') {
-      targetVersion = (
-        await Prompt.prompts([{
-          type: 'input',
-          name: 'version',
-          message: 'Input custom version',
-          initial: currentVersion
-        }])
-      ).version
-    } else {
-      targetVersion = release.match(/\((.*)\)/)[1]
-    }
-  }
+  const targetVersion = release === 'custom' ? await Input.prompt({
+    message: 'Input custom version',
+    initial: currentVersion
+  }) : release.match(/\((.*)\)/)[1]
 
   if (!semver.valid(targetVersion)) {
     throw new Error(`invalid target version: ${targetVersion}`)
   }
 
-  const { yes } = await Prompt.prompts([{
-    type: 'confirm',
-    name: 'yes',
+  const yes = await Confirm.prompt({
     message: `Releasing v${targetVersion}. Confirm?`
-  }])
+  })
 
   if (!yes) {
     return
   }
 
-  console.log('\nUpdating version...')
-  updateVersions(targetVersion)
+  pkg.version = targetVersion
+  Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
-  console.log('\nBuilding...')
-  if (!isDryRun) {
-    await run('pnpm run build')
-  } else {
-    console.log(`(skipped)`)
+  if (!skipBuild) {
+    console.log('\nBuilding...')
+    await run('pnpm build')
   }
 
-  console.log('\nPublishing...')
-  await publishPackage(name, targetVersion, run)
+  return
+  // 会把 pnpm 的 registry 也删掉
+  await run('npm config delete registry')
+  try {
+    console.log('\nPublishing...')
+    await run('npm publish')
+    console.log(`\n%cSuccessfully published ${name}@${targetVersion}`, 'color:green;font-weight:bold')
+  } catch (e) {
+    if (e.stderr.match(/previously published/)) {
+      console.log(`\n%cSkipping already published: ${name}`, 'color:red;font-weight:bold')
+    } else {
+      throw e
+    }
+  }
 
   const { stdout } = await run('git diff', { stdout: 'piped' })
   if (stdout) {
@@ -93,35 +79,9 @@ export default async () => {
   await run(`git push origin refs/tags/v${targetVersion}`)
   await run(`git push`)
 
-  if (isDryRun) {
-    console.log(`\nDry run finished - run git diff to see package changes.`)
-  }
-}
-
-function updateVersions(version) {
-  pkg.version = version
-  Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
-}
-
-async function publishPackage(pkgName, version, run) {
-  console.log(`Publishing ${pkgName}...`)
-  await run('npm config delete registry')
-  try {
-    await run('npm publish')
-    console.log(`\n%cSuccessfully published ${pkgName}@${version}`, 'color:green;font-weight:bold')
-  } catch (e) {
-    if (e.stderr.match(/previously published/)) {
-      console.log(`\n%cSkipping already published: ${pkgName}`, 'color:red;font-weight:bold')
-    } else {
-      throw e
-    }
-  }
+  console.log('\nRecovering registry...')
+  // 会把 npm 的 registry 也设置上
   await run('pnpm config set registry https://registry.npmmirror.com')
-
-  run(`cnpm sync ${pkgName}`)
-  run(`explorer https://npmmirror.com/sync/${pkgName}`)
+  console.log('\nSyncing to cnpm...')
+  await run(`cnpm sync ${name}`)
 }
-
-main().catch(e => {
-  console.error(e)
-})

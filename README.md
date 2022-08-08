@@ -2,8 +2,8 @@
 
 个人常用的脚本合集，使用 deno 编写
 
-```bash
-# 安装 deno
+```sh
+# 安装 deno（PowerShell）
 
 iwr https://deno.land/install.ps1 -useb | iex
 
@@ -14,7 +14,7 @@ deno -V
 
 ## 删除 node_modules
 
-```bash
+```sh
 cl clean
 ```
 
@@ -22,15 +22,19 @@ cl clean
 
 ## 更新依赖
 
-```bash
+```sh
+cl up [include]
+
+# 例子
 cl up
+cl up 'axios|sass|vite'
 ```
 
 <br>
 
 ## 校验 Commit Message
 
-```bash
+```sh
 cl verifyCommit
 
 # 通常作为 husky 钩子使用
@@ -40,7 +44,7 @@ cl verifyCommit
 
 ## 切换 Vue 版本
 
-```bash
+```sh
 cl switchVue <version>
 
 # version 可选值：2 / 2.7 / 3
@@ -50,18 +54,19 @@ cl switchVue <version>
 
 ## 同步下游
 
-```bash
-cl syncFork <base> --dir <dir>
+```sh
+cl syncFork <dir> --base <base>
 
 # 例子
-cl syncFork 'D:\workspace\up\' --dir 'aaa|bbb|ccc'
+cl syncFork 'aaa|bbb|ccc' --base 'D:\workspace\up\'
+cl syncFork 'D:\workspace\up\aaa|D:\workspace\up\aaa\bbb|D:\workspace\up\aaa\ccc'
 ```
 
 <br>
 
 ## 发版
 
-```bash
+```sh
 cl release
 ```
 

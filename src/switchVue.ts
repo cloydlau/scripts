@@ -52,7 +52,7 @@ if (pkg.devDependencies.vue) {
   }
 }
 
-export default async ({ version: targetVersion }) => {
+export default async (version: targetVersion) => {
   if (currentVersion && currentVersion !== targetVersion) {
     const { yes } = await Prompt.prompts([{
       type: 'confirm',
@@ -75,6 +75,6 @@ export default async ({ version: targetVersion }) => {
 
   Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
-  await run({ cmd: 'pnpm i' })
-  await run({ cmd: `npx vue-demi-switch ${targetVersion}` })
+  await run('pnpm i')
+  await run(`npx vue-demi-switch ${targetVersion}`)
 }

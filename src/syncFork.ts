@@ -1,19 +1,14 @@
-/**
- * 同步下游
- */
-
 import run from '../utils/run.ts'
 
 export default async (downstreams) => {
-  for (const k in downstreams) {
-    const cwd = downstreams[k]
-    await run({ cmd: 'git switch dev', cwd })
-    await run({ cmd: 'git fetch up', cwd })
+  for (const cwd of downstreams) {
+    await run('git switch dev', { cwd })
+    await run('git fetch up', { cwd })
     try {
-      await run({ cmd: 'git merge up/dev', cwd })
-      console.log(`\n${k} 同步成功！`)
+      await run('git merge up/dev', { cwd })
+      console.log(`\n${cwd} is up-to-date with upstream`)
     } catch (e) {
-      console.error(`\n${k} 同步失败！`)
+      console.error(`\nSync ${cwd} failed`)
       console.error(e)
     }
   }
