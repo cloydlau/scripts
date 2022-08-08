@@ -2,12 +2,18 @@
   "name": "@cloydlau/scripts",
   "version": "0.0.0",
   "private": false,
-  "description": "Scripts for personal usage",
+  "description": "Script collection written in Deno.",
   "author": "cloydlau",
   "license": "MIT",
   "bin": {
     "cl": "bin/cli.ts"
   },
+  "keywords": [
+    "deno",
+    "scripts",
+    "cac",
+    "cli"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/cloydlau/scripts"
@@ -22,5 +28,8 @@
     "eslint": "latest",
     "husky": "latest",
     "lint-staged": "latest"
+  },
+  "engines": {
+    "deno": "latest"
   }
 }

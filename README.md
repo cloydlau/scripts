@@ -1,13 +1,19 @@
 # @cloydlau/scripts
 
-个人常用的脚本合集，使用 deno 编写
+Deno 编写的脚本合集。
 
 ```sh
-# 安装 deno（PowerShell）
-
+# 安装 Deno（PowerShell）
 iwr https://deno.land/install.ps1 -useb | iex
 
+# 查看 Deno 版本
 deno -V
+
+# 全局安装 @cloydlau/scripts
+npm add @cloydlau/scripts -g
+
+# 查看 @cloydlau/scripts 提供的命令
+cl -h
 ```
 
 <br>

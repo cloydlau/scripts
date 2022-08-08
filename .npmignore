@@ -20,7 +20,6 @@ yarn-error.log*
 *.sln
 *.sw?
 
-src/
 public/
 vue.config.js
 babel.config.js

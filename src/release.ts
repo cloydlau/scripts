@@ -50,7 +50,6 @@ export default async ({ skipBuild = false }) => {
     await run('pnpm build')
   }
 
-  return
   // 会把 pnpm 的 registry 也删掉
   await run('npm config delete registry')
   try {
@@ -63,6 +62,9 @@ export default async ({ skipBuild = false }) => {
     } else {
       throw e
     }
+  } finally {
+    // 会把 npm 的 registry 也设置上
+    await run('pnpm config set registry https://registry.npmmirror.com')
   }
 
   const { stdout } = await run('git diff', { stdout: 'piped' })
@@ -79,9 +81,6 @@ export default async ({ skipBuild = false }) => {
   await run(`git push origin refs/tags/v${targetVersion}`)
   await run(`git push`)
 
-  console.log('\nRecovering registry...')
-  // 会把 npm 的 registry 也设置上
-  await run('pnpm config set registry https://registry.npmmirror.com')
   console.log('\nSyncing to cnpm...')
   await run(`cnpm sync ${name}`)
 }

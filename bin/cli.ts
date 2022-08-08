@@ -13,19 +13,12 @@ cli
 import up from '../src/up.ts'
 cli
   .command('up [include]', '[string] upgrade dependencies')
-  .action((include: string, options) => {
+  .action((include: string) => {
     try {
-      up(include, options)
+      up(include)
     } catch (e) {
       Deno.exit(1)
     }
-  })
-
-import switchVue from '../src/switchVue.ts'
-cli
-  .command('switchVue <version>', '[number] switch vue version')
-  .action((version: string) => {
-    switchVue(version)
   })
 
 import verifyCommit from '../src/verifyCommit.ts'
@@ -33,6 +26,21 @@ cli
   .command('verifyCommit', 'verify commit message')
   .action(() => {
     verifyCommit()
+  })
+
+import release from '../src/release.ts'
+cli
+  .command('release', 'publish new version')
+  .option('--skipBuild', `[boolean] whether to skip build`)
+  .action((options) => {
+    release(options)
+  })
+
+import switchVue from '../src/switchVue.ts'
+cli
+  .command('switchVue <version>', '[number] switch vue version')
+  .action((version: string) => {
+    switchVue(version)
   })
 
 import syncFork from '../src/syncFork.ts'
@@ -44,14 +52,6 @@ cli
       const value = (options.base ?? '') + v
       return { name: value, value }
     }))
-  })
-
-import release from '../src/release.ts'
-cli
-  .command('release', 'publish new version')
-  .option('--skipBuild', `[boolean] whether to skip build`)
-  .action(async (options) => {
-    await release(options)
   })
 
 cli.help()
