@@ -53,7 +53,7 @@ export default async ({ skipBuild = false }) => {
   await run('npm config delete registry')
   try {
     console.log('\nPublishing...')
-    await run('npm publish')
+    await run('npm publish --access=public')
     console.log(`\n%cSuccessfully published ${name}@${targetVersion}`, 'color:green;font-weight:bold')
   } catch (e) {
     if (e.stderr.match(/previously published/)) {

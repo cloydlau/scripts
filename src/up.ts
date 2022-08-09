@@ -23,7 +23,6 @@ export default async (include: string) => {
         include = Object.keys(this)
       }
 
-      console.log('\nChecking dependencies...')
       let updated = false
       for (const pkgName of include) {
         const latestVersion = await run(`npm view ${pkgName} version`, { stdout: 'piped' })
@@ -48,10 +47,10 @@ export default async (include: string) => {
 
     const pkg = JSON.parse(Deno.readTextFileSync("./package.json"))
 
+    console.log('\nChecking dependencies...')
     const dependenciesUpdated = await updateVersion.call(pkg.dependencies, include)
+    console.log('\nChecking devDependencies...')
     const devDependenciesUpdated = await updateVersion.call(pkg.devDependencies, include)
-
-    console.log('\n')
 
     if (dependenciesUpdated || devDependenciesUpdated) {
       Deno.writeTextFileSync("./package.json", JSON.stringify(pkg, null, 2))
@@ -59,7 +58,7 @@ export default async (include: string) => {
       await run('pnpm build:prod')
       await run('pnpm dev')
     } else {
-      console.log(`\n%cAll dependencies are up-to-date.`, 'color:green;font-weight:bold')
+      console.log(`\n%cAll dependencies are up-to-date`, 'color:green;font-weight:bold')
     }
   } else {
     console.log('\nUpdating dependencies...')

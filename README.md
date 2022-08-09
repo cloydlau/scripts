@@ -33,7 +33,7 @@ cl up [include]
 
 # 例子
 cl up
-cl up 'axios,sass,vite'
+cl up axios,sass,vite
 ```
 
 <br>
@@ -51,9 +51,12 @@ cl verifyCommit
 ## 切换 Vue 版本
 
 ```sh
-cl switchVue <version>
+cl switchVue <version> --vue2deps <vue2deps> --vue3deps <vue3deps>
 
 # version 可选值：2 / 2.7 / 3
+
+# 例子
+cl switchVue 2 --vue2deps vue-router@3,element-ui --vue3deps vue-router,element-plus
 ```
 
 <br>
@@ -64,8 +67,8 @@ cl switchVue <version>
 cl syncFork <dir> --base <base>
 
 # 例子
-cl syncFork 'aaa,bbb,ccc' --base 'D:\workspace\up\'
-cl syncFork 'D:\workspace\up\aaa,D:\workspace\up\aaa\bbb,D:\workspace\up\aaa\ccc'
+cl syncFork aaa,bbb,ccc --base D:/workspace/up/
+cl syncFork D:/workspace/up/aaa,D:/workspace/up/aaa/bbb,D:/workspace/up/aaa/ccc
 ```
 
 <br>

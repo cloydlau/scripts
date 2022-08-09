@@ -39,8 +39,10 @@ cli
 import switchVue from '../src/switchVue.ts'
 cli
   .command('switchVue <version>', '[number] switch vue version')
-  .action((version: string) => {
-    switchVue(version)
+  .option('--vue2deps <vue2deps>', `[string] dependencies of vue2`)
+  .option('--vue3deps <vue3deps>', `[string] dependencies of vue3`)
+  .action((version: string, options) => {
+    switchVue(version, options)
   })
 
 import syncFork from '../src/syncFork.ts'
