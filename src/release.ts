@@ -66,14 +66,9 @@ export default async ({ skipBuild = false }) => {
     await run('pnpm config set registry https://registry.npmmirror.com')
   }
 
-  const { stdout } = await run('git diff', { stdout: 'piped' })
-  if (stdout) {
-    console.log('\nCommitting changes...')
-    await run('git add -A')
-    await run(`git commit -m release: v${targetVersion}`)
-  } else {
-    console.log('No changes to commit.')
-  }
+  console.log('\nCommitting changes...')
+  await run('git add -A')
+  await run(`git commit -m release: v${targetVersion}`)
 
   console.log('\nPushing to GitHub...')
   await run(`git tag v${targetVersion}`)
