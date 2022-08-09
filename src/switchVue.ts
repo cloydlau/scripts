@@ -19,8 +19,8 @@ const DEPS = {
     '@vue/composition-api': 'latest',
     '@vue/test-utils': '1',
     'vite-plugin-vue2': 'latest',
-    'vue': '~2.6',
-    'vue-template-compiler': '~2.6',
+    'vue': '2.6',
+    'vue-template-compiler': '2.6',
   },
 }
 
