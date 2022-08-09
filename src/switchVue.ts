@@ -64,7 +64,8 @@ export default async (targetVersion, { vue2deps, vue3deps }) => {
   })
 
   vue3deps?.split(',').map((v) => {
-    let [name, version] = v.split('@')
+    let [name, version] = v.substring(1).split('@')
+    name = v[0] + name // 兼容包名首字母为@的情况
     version ??= 'latest'
     DEPS[3][name] = version
   })
