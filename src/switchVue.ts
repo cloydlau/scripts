@@ -81,6 +81,10 @@ export default async (targetVersion, { vue2deps, vue3deps }) => {
 
   Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
-  await run('pnpm i')
+  try {
+    await run('pnpm i')
+  } catch (e) {
+    // 可能会有 Unmet peer dependencies 的报错，不影响
+  }
   await run(`npx vue-demi-switch ${targetVersion}`)
 }
