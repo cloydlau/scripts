@@ -48,10 +48,7 @@ cli
   .command('syncFork <dir>', '[string] sync fork')
   .option('--base <base>', `[string] directory base`)
   .action((dir, options) => {
-    syncFork(Array.from(dir.split('|'), v => {
-      const value = (options.base ?? '') + v
-      return { name: value, value }
-    }))
+    syncFork(Array.from(dir.split(','), name => ({ name, value: (options.base ?? '') + name })))
   })
 
 cli.help()

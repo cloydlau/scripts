@@ -6,7 +6,7 @@ export default async (include: string) => {
   const latestVersion = await run('npm view pnpm version', { stdout: 'piped' })
 
   if (curVersion.stdout === latestVersion.stdout) {
-    console.log(`\n%cpnpm is up-to-date`, 'color:green;font-weight:bold')
+    console.log('pnpm is up-to-date')
   } else {
     console.log(`\n%cFound new pnpm version ${latestVersion.stdout}, updating...`, 'color:red;font-weight:bold')
     await run('npm add pnpm -g')
@@ -18,11 +18,12 @@ export default async (include: string) => {
   if (include) {
     async function updateVersion(include) {
       if (include) {
-        include = include.split('|')
+        include = include.split(',')
       } else {
         include = Object.keys(this)
       }
 
+      console.log('\nChecking dependencies...')
       let updated = false
       for (const pkgName of include) {
         const latestVersion = await run(`npm view ${pkgName} version`, { stdout: 'piped' })
@@ -33,7 +34,7 @@ export default async (include: string) => {
             this[pkgName] = this[pkgName].substring(1)
           }
           if (this[pkgName] === latestVersion || ['latest', '*'].includes(this[pkgName])) {
-            console.log(`\n%c${pkgName} is up-to-date`, 'color:green;font-weight:bold')
+            console.log(`${pkgName} is up-to-date`)
           } else {
             console.log(`\n%c${pkgName} is updated from ${this[pkgName]} to ${latestVersion}`, 'color:red;font-weight:bold')
             this[pkgName] = prefix + latestVersion
@@ -41,8 +42,6 @@ export default async (include: string) => {
           }
         }
       }
-
-      console.log('\n')
 
       return updated
     }
@@ -52,11 +51,15 @@ export default async (include: string) => {
     const dependenciesUpdated = await updateVersion.call(pkg.dependencies, include)
     const devDependenciesUpdated = await updateVersion.call(pkg.devDependencies, include)
 
+    console.log('\n')
+
     if (dependenciesUpdated || devDependenciesUpdated) {
       Deno.writeTextFileSync("./package.json", JSON.stringify(pkg, null, 2))
       await run('pnpm i')
       await run('pnpm build:prod')
       await run('pnpm dev')
+    } else {
+      console.log(`\n%cAll dependencies are up-to-date.`, 'color:green;font-weight:bold')
     }
   } else {
     console.log('\nUpdating dependencies...')

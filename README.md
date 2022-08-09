@@ -33,7 +33,7 @@ cl up [include]
 
 # 例子
 cl up
-cl up 'axios|sass|vite'
+cl up 'axios,sass,vite'
 ```
 
 <br>
@@ -64,8 +64,8 @@ cl switchVue <version>
 cl syncFork <dir> --base <base>
 
 # 例子
-cl syncFork 'aaa|bbb|ccc' --base 'D:\workspace\up\'
-cl syncFork 'D:\workspace\up\aaa|D:\workspace\up\aaa\bbb|D:\workspace\up\aaa\ccc'
+cl syncFork 'aaa,bbb,ccc' --base 'D:\workspace\up\'
+cl syncFork 'D:\workspace\up\aaa,D:\workspace\up\aaa\bbb,D:\workspace\up\aaa\ccc'
 ```
 
 <br>
