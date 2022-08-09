@@ -68,7 +68,7 @@ export default async ({ skipBuild = false }) => {
 
   console.log('\nCommitting changes...')
   await run('git add -A')
-  await run(`git commit -m release: v${targetVersion}`)
+  await run(null, { cmd: ['git', 'commit', '-m', `release: v${targetVersion}`] })
 
   console.log('\nPushing to GitHub...')
   await run(`git tag v${targetVersion}`)
