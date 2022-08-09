@@ -20,15 +20,14 @@ const versionIncrements = [
 const inc = i => semver.inc(currentVersion, i, preId)
 
 export default async ({ skipBuild = false }) => {
-  const release = await Select.prompt({
+  const t = await Select.prompt({
     message: 'Select release type',
     options: versionIncrements.map(name => ({ name, value: inc(name) })).concat([{ name: 'custom', value: 'custom' }]),
   })
 
-  const targetVersion = release === 'custom' ? await Input.prompt({
+  const targetVersion = t === 'custom' ? await Input.prompt({
     message: 'Input custom version',
-    initial: currentVersion
-  }) : release.match(/\((.*)\)/)[1]
+  }) : t
 
   if (!semver.valid(targetVersion)) {
     throw new Error(`invalid target version: ${targetVersion}`)
