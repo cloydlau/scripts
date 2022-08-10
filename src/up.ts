@@ -5,7 +5,7 @@ export default async (include: string) => {
   const curVersion = await run('pnpm -v', { stdout: 'piped' })
   const latestVersion = await run('npm view pnpm version', { stdout: 'piped' })
 
-  if (curVersion.stdout === latestVersion.stdout) {
+  if (curVersion === latestVersion) {
     console.log('pnpm is up-to-date')
   } else {
     console.log(`\n%cFound new pnpm version ${latestVersion.stdout}, updating...`, 'color:red;font-weight:bold')
