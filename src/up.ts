@@ -35,7 +35,7 @@ export default async (include: string) => {
           if (this[pkgName] === latestVersion || ['latest', '*'].includes(this[pkgName])) {
             console.log(`${pkgName} is up-to-date`)
           } else {
-            console.log(`\n%c${pkgName} is updated from ${this[pkgName]} to ${latestVersion}`, 'color:red;font-weight:bold')
+            console.log(`%c${pkgName} is updated from ${this[pkgName]} to ${latestVersion}`, 'color:red;font-weight:bold')
             this[pkgName] = prefix + latestVersion
             updated = true
           }
