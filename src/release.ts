@@ -41,13 +41,13 @@ export default async ({ skipBuild = false }) => {
     return
   }
 
-  pkg.version = targetVersion
-  Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
-
   if (!skipBuild) {
     console.log('\nBuilding...')
     await run('pnpm build')
   }
+
+  pkg.version = targetVersion
+  Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
   // 会把 pnpm 的 registry 也删掉
   await run('npm config delete registry')
@@ -56,6 +56,10 @@ export default async ({ skipBuild = false }) => {
     await run('npm publish --access=public')
     console.log(`\n%cSuccessfully published ${name}@${targetVersion}`, 'color:green;font-weight:bold')
   } catch (e) {
+    // 恢复版本号
+    pkg.version = currentVersion
+    Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
+
     if (e.stderr.match(/previously published/)) {
       console.log(`\n%cSkipping already published: ${name}`, 'color:red;font-weight:bold')
     } else {
