@@ -14,7 +14,7 @@ export default async (options) => {
     await run('git fetch up', { cwd })
     try {
       await run('git merge up/dev', { cwd })
-      console.log(`\n%c${cwd} is up-to-date with origin`, 'color:green;font-weight:bold')
+      console.log(`\n%c${cwd} is up-to-date with origin\n`, 'color:green;font-weight:bold')
     } catch (e) {
       console.error(`\nSync ${cwd} failed`)
       console.error(e)
