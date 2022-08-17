@@ -9,10 +9,14 @@ export default async (include: string) => {
     console.log('pnpm is up-to-date')
   } else {
     console.log(`\n%cFound new pnpm version ${latestVersion.stdout}, updating...`, 'color:red;font-weight:bold')
+    const storeDir = await run('pnpm config get store-dir', { stdout: 'piped' })
     await run('npm add pnpm -g')
 
     console.log('\nSetting pnpm registry...')
     await run('pnpm config set registry https://registry.npmmirror.com')
+
+    console.log('\nRecovering pnpm store-dir')
+    await run(`pnpm config set store-dir ${storeDir}`)
   }
 
   if (include) {
