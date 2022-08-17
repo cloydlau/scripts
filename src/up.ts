@@ -8,7 +8,7 @@ export default async (include: string) => {
   if (curVersion === latestVersion) {
     console.log('pnpm is up-to-date')
   } else {
-    console.log(`\n%cFound new pnpm version ${latestVersion.stdout}, updating...`, 'color:red;font-weight:bold')
+    console.log(`\n%cUpdating pnpm version from ${curVersion} to ${latestVersion}...`, 'color:red;font-weight:bold')
     const storeDir = await run('pnpm config get store-dir', { stdout: 'piped' })
     await run('npm add pnpm -g')
 
