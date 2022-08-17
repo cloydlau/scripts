@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "latest",
+    "case-police": "latest",
     "eslint": "latest",
     "husky": "latest",
     "lint-staged": "latest"
