@@ -67,7 +67,7 @@ export default async (include: string) => {
       await run('pnpm build:prod')
       await run('pnpm dev')
     } else {
-      console.log(`\n%cAll dependencies are up-to-date`, 'color:green;font-weight:bold')
+      console.log(`\n%cAll specified dependencies are up-to-date`, 'color:green;font-weight:bold')
     }
   } else {
     console.log('\nUpdating dependencies...')
