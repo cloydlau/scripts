@@ -50,7 +50,7 @@ export default async (targetVersion, { vue2deps, vue3deps }) => {
   if (currentVersion && currentVersion !== targetVersion) {
     const yes = await Confirm.prompt({
       type: 'confirm',
-      message: `当前 Vue 版本为 ${currentVersion}, 是否切换至 ${targetVersion}？`,
+      message: `Current Vue version is ${currentVersion}, switch to ${targetVersion}？`,
     })
     if (!yes)
       return
