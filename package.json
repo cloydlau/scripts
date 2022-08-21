@@ -2,7 +2,7 @@
   "name": "@cloydlau/scripts",
   "version": "0.1.2",
   "private": false,
-  "description": "Script collection written in Deno. Deno 编写的脚本合集。",
+  "description": "Script collection written in Deno.",
   "author": "cloydlau",
   "license": "MIT",
   "bin": {
