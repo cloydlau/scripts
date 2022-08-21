@@ -51,7 +51,7 @@ cl verifyCommit
 ## 切换 Vue 版本
 
 ```sh
-cl switchVue <version> --vue2deps <vue2deps> --vue3deps <vue3deps>
+cl switchVue <version> --vue2deps <vue2deps> --vue3deps <vue3deps> [--force]
 
 # version 可选值：2 / 2.7 / 3
 
@@ -64,7 +64,7 @@ cl switchVue 2 --vue2deps "vue-router@3,element-ui" --vue3deps "vue-router,eleme
 ## 同步下游
 
 ```sh
-cl syncFork <dir> --base <base>
+cl syncFork <dir> [--base <base>]
 
 # 例子
 cl syncFork "aaa,bbb,ccc" --base "D:/workspace/up/"
@@ -76,7 +76,7 @@ cl syncFork "D:/workspace/up/aaa,D:/workspace/up/aaa/bbb,D:/workspace/up/aaa/ccc
 ## 发版
 
 ```sh
-cl release
+cl release [--skipBuild]
 ```
 
 <br>

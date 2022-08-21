@@ -41,6 +41,7 @@ cli
   .command('switchVue <version>', '[number] switch vue version')
   .option('--vue2deps <vue2deps>', `[string] dependencies of vue2`)
   .option('--vue3deps <vue3deps>', `[string] dependencies of vue3`)
+  .option('--force', `[boolean] no prompt`)
   .action((version: string, options) => {
     switchVue(version, options)
   })

@@ -46,8 +46,8 @@ if (pkg.devDependencies.vue) {
   }
 }
 
-export default async (targetVersion, { vue2deps, vue3deps }) => {
-  if (currentVersion && currentVersion !== targetVersion) {
+export default async (targetVersion, { vue2deps, vue3deps, force = false }) => {
+  if (currentVersion && currentVersion !== targetVersion && !force) {
     const yes = await Confirm.prompt({
       type: 'confirm',
       message: `Current Vue version is ${currentVersion}, switch to ${targetVersion}？`,
