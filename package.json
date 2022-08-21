@@ -1,6 +1,6 @@
 {
   "name": "@cloydlau/scripts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "Script collection written in Deno. Deno 编写的脚本合集。",
   "author": "cloydlau",
