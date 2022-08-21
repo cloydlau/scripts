@@ -70,23 +70,37 @@ export default async (targetVersion, { vue2deps, vue3deps, force = false }) => {
     DEPS[3][name] = version
   })
 
+  let changed = false
+
   for (const k in DEPS) {
     if (k !== targetVersion) {
-      for (const k2 in DEPS[k])
-        delete pkg.devDependencies[k2]
+      for (const k2 in DEPS[k]) {
+        // 删除非目标版本的依赖
+        if (pkg.devDependencies[k2] && !DEPS[targetVersion][k2]) {
+          delete pkg.devDependencies[k2]
+          changed = true
+        }
+      }
     }
   }
 
-  for (const k in DEPS[targetVersion])
-    pkg.devDependencies[k] = DEPS[targetVersion][k]
-
-  Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
-  await run('npx eslint ./package.json --fix')
-
-  try {
-    await run('pnpm i')
-  } catch (e) {
-    // 可能会有 Unmet peer dependencies 的报错，不影响
+  for (const k in DEPS[targetVersion]) {
+    // 添加目标版本的依赖
+    if (pkg.devDependencies[k] !== DEPS[targetVersion][k]) {
+      pkg.devDependencies[k] = DEPS[targetVersion][k]
+      changed = true
+    }
   }
-  await run(`npx vue-demi-switch ${targetVersion}`)
+
+  if (changed) {
+    Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
+    await run('npx eslint ./package.json --fix')
+
+    try {
+      await run('pnpm i')
+    } catch (e) {
+      // 可能会有 Unmet peer dependencies 的报错，不影响
+    }
+    await run(`npx vue-demi-switch ${targetVersion}`)
+  }
 }
