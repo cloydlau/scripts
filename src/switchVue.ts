@@ -1,6 +1,6 @@
 //import parseArgs from 'https://deno.land/x/deno_minimist@v1.0.2/mod.ts'
 import { Confirm } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
-import run from '../utils/run.ts'
+import run from './utils/run.ts'
 
 const DEPS = {
   3: {

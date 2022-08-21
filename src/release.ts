@@ -1,7 +1,7 @@
 import parseArgs from 'https://deno.land/x/deno_minimist@v1.0.2/mod.ts'
 import { Input, Select, Confirm } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 import * as semver from "https://deno.land/x/semver/mod.ts"
-import run from '../utils/run.ts'
+import run from './utils/run.ts'
 
 const args = parseArgs(Deno.args)
 const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))

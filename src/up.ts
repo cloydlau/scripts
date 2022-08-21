@@ -1,4 +1,4 @@
-import run from '../utils/run.ts'
+import run from './utils/run.ts'
 
 export default async (include: string) => {
   console.log('\nChecking pnpm version...')

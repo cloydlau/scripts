@@ -1,4 +1,4 @@
-import run from '../utils/run.ts'
+import run from './utils/run.ts'
 
 export default async (options) => {
   console.log(`%cRemoving ./node_modules...`, 'color:red;font-weight:bold')

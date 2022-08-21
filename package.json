@@ -8,6 +8,10 @@
   "bin": {
     "cl": "bin/cli.ts"
   },
+  "files": [
+    "bin",
+    "src"
+  ],
   "keywords": [
     "deno",
     "scripts",

@@ -1,5 +1,5 @@
 import { Checkbox } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
-import run from '../utils/run.ts'
+import run from './utils/run.ts'
 
 export default async (options) => {
   const forks: string[] = await Checkbox.prompt({
