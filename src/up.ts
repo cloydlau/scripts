@@ -10,7 +10,7 @@ export default async (include: string) => {
   } else {
     console.log(`\n%cUpdating pnpm version from ${curVersion} to ${latestVersion}...`, 'color:red;font-weight:bold')
     const storeDir = await run('pnpm config get store-dir', { stdout: 'piped' })
-    await run('npm add pnpm -g')
+    await run('pnpm add pnpm -g')
 
     console.log('\nSetting pnpm registry to \"npmmirror\"...')
     await run('pnpm config set registry https://registry.npmmirror.com')
