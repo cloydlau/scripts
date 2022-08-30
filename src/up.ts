@@ -64,8 +64,12 @@ export default async (include: string) => {
       } catch (e) {
         // 可能会有 Unmet peer dependencies 的报错，不影响
       }
-      await run('pnpm build:prod')
-      await run('pnpm dev')
+      console.log('\nCommitting changes...')
+      await run('git add -A')
+      await run(null, { cmd: ['git', 'commit', '-m', 'chore(deps): update specified dependencies'] })
+
+      console.log('\nPushing')
+      await run(`git push`)
     } else {
       console.log(`\n%cAll specified dependencies are up-to-date`, 'color:green;font-weight:bold')
     }
