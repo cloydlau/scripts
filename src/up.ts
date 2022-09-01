@@ -58,18 +58,20 @@ export default async (include: string) => {
 
     if (dependenciesUpdated || devDependenciesUpdated) {
       Deno.writeTextFileSync("./package.json", JSON.stringify(pkg, null, 2))
-      try {
-        console.log('\n')
-        await run('pnpm i')
-      } catch (e) {
-        // 可能会有 Unmet peer dependencies 的报错，不影响
-      }
+
       console.log('\nCommitting changes...')
       await run('git add -A')
       await run(null, { cmd: ['git', 'commit', '-m', 'chore(deps): update specified dependencies'] })
 
       console.log('\nPushing')
       await run(`git push`)
+
+      try {
+        console.log('\n')
+        await run('pnpm i')
+      } catch (e) {
+        // 可能会有 Unmet peer dependencies 的报错，不影响
+      }
     } else {
       console.log(`\n%cAll specified dependencies are up-to-date`, 'color:green;font-weight:bold')
     }
