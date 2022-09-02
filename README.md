@@ -80,3 +80,16 @@ cl release [--skipBuild]
 ```
 
 <br>
+
+## 基准测试
+
+运行一条命令，并计算其耗费的时间
+
+```sh
+cl benchmark <cmd>
+
+# 例子
+cl benchmark "pnpm i"
+```
+
+<br>

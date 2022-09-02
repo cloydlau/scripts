@@ -3,6 +3,13 @@
 import { cac } from 'https://unpkg.com/cac/mod.ts'
 const cli = cac('cl')
 
+import benchmark from '../src/benchmark.ts'
+cli
+  .command('benchmark <cmd>', '[string] command benchmark')
+  .action((cmd: string) => {
+    benchmark(cmd)
+  })
+
 import clean from '../src/clean.ts'
 cli
   .command('clean', 'remove node_modules')
