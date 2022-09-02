@@ -4,7 +4,7 @@ Deno 编写的脚本合集。
 
 ```sh
 # 安装 Deno（PowerShell）
-iwr https://deno.land/install.ps1 -useb | iex
+irm https://x.deno.js.cn/install.ps1 | iex
 
 # 查看 Deno 版本
 deno -V
