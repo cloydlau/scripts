@@ -16,6 +16,7 @@ const DEPS = {
     'vue-template-compiler': '2.7', // @vue/test-utils@1 需要
   },
   2: {
+    'unplugin-vue2-script-setup': 'latest',
     '@vue/composition-api': 'latest',
     '@vue/test-utils': '1',
     'vite-plugin-vue2': 'latest',
