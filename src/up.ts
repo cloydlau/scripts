@@ -31,7 +31,7 @@ export default async (include: string) => {
       for (const pkgName of include) {
         const latestVersion = await run(`npm view ${pkgName} version`, { stdout: 'piped' })
         if (this[pkgName]) {
-          if (this[pkgName] === latestVersion || ['latest', '*'].includes(this[pkgName])) {
+          if (this[pkgName] === latestVersion) {
             console.log(`${pkgName} is up-to-date`)
           } else {
             console.log(`%c${pkgName} is updated from ${this[pkgName]} to ${latestVersion}`, 'color:red;font-weight:bold')
