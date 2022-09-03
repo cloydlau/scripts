@@ -38,7 +38,6 @@ cli
 import release from '../src/release.ts'
 cli
   .command('release', 'publish new version')
-  .option('--skipBuild', `[boolean] whether to skip build`)
   .action((options) => {
     release(options)
   })

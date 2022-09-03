@@ -19,7 +19,7 @@ const versionIncrements = [
 
 const inc = i => semver.inc(currentVersion, i, preId)
 
-export default async ({ skipBuild = false }) => {
+export default async () => {
   const t = await Select.prompt({
     message: 'Select release type',
     options: versionIncrements.map(name => ({ name, value: inc(name) })).concat([{ name: 'custom', value: 'custom' }]),
@@ -41,7 +41,7 @@ export default async ({ skipBuild = false }) => {
     return
   }
 
-  if (!skipBuild) {
+  if (pkg.scripts?.build) {
     console.log('\nBuilding...')
     await run('pnpm build')
   }

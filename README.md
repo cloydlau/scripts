@@ -75,8 +75,10 @@ cl syncFork "D:/workspace/up/aaa,D:/workspace/up/aaa/bbb,D:/workspace/up/aaa/ccc
 
 ## 发版
 
+自动检测 package.json 中是否存在 `build` 命令，存在才会执行。
+
 ```sh
-cl release [--skipBuild]
+cl release
 ```
 
 <br>
