@@ -95,7 +95,6 @@ export default async (targetVersion, { vue2deps, vue3deps, force = false }) => {
 
   if (changed) {
     Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
-    await run('npx eslint ./package.json --fix')
 
     try {
       await run('pnpm i')
@@ -104,4 +103,5 @@ export default async (targetVersion, { vue2deps, vue3deps, force = false }) => {
     }
     await run(`npx vue-demi-switch ${targetVersion}`)
   }
+  await run('npx eslint ./package.json --fix')
 }
