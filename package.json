@@ -1,12 +1,15 @@
 {
   "name": "@cloydlau/scripts",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "description": "Script collection written in Deno.",
   "author": "cloydlau",
   "license": "MIT",
   "bin": {
     "cl": "bin/cli.ts"
+  },
+  "scripts": {
+    "release": "cl release"
   },
   "files": [
     "bin",
