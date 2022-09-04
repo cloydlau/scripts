@@ -41,11 +41,6 @@ export default async () => {
     return
   }
 
-  if (pkg.scripts?.build) {
-    console.log('\nBuilding...')
-    await run('pnpm build')
-  }
-
   pkg.version = targetVersion
   Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
