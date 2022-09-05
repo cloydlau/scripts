@@ -44,7 +44,7 @@ cli
 
 import switchVue from '../src/switchVue.ts'
 cli
-  .command('switchVue [version]', '[number] switch vue version')
+  .command('switchVue [version]', '[string] switch vue version')
   .option('--vue2deps <vue2deps>', `[string] dependencies of vue2`)
   .option('--vue3deps <vue3deps>', `[string] dependencies of vue3`)
   .action((version: string, options) => {
