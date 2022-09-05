@@ -41,11 +41,16 @@ export default async () => {
     return
   }
 
+  // 会把 pnpm 的 registry 也删掉
+  await run('npm config delete registry')
+  // 删镜像有延迟，需要跑一个命令等待一下
+  if (await run('npm config get registry', { stdout: 'piped' }) !== 'https://registry.npmjs.org/') {
+    throw new Error('npm registry incorrect')
+  }
+
   pkg.version = targetVersion
   Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
-  // 会把 pnpm 的 registry 也删掉
-  await run('npm config delete registry')
   try {
     console.log('\nPublishing...')
     await run('npm publish --access=public')
