@@ -51,12 +51,13 @@ cl verifyCommit
 ## 切换 Vue 版本
 
 ```sh
-cl switchVue <version> --vue2deps <vue2deps> --vue3deps <vue3deps> [--force]
+cl switchVue [version] --vue2deps <vue2deps> --vue3deps <vue3deps>
 
-# version 可选值：2 / 2.7 / 3
+# version 非必填，可选值：2.6 / 2.7 / 3
 
 # 例子
-cl switchVue 2 --vue2deps "vue-router@3,element-ui" --vue3deps "vue-router,element-plus"
+cl switchVue
+cl switchVue 2.6 --vue2deps "vue-router@3,element-ui" --vue3deps "vue-router,element-plus"
 ```
 
 <br>

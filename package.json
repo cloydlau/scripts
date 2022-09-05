@@ -21,10 +21,7 @@
     "cac",
     "cli"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cloydlau/scripts"
-  },
+  "repository": "https://github.com/cloydlau/scripts",
   "lint-staged": {
     "*.{js,ts,tsx,vue,md}": [
       "eslint --fix"

@@ -1,5 +1,5 @@
 //import parseArgs from 'https://deno.land/x/deno_minimist@v1.0.2/mod.ts'
-import { Confirm } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
+import { Select } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 import run from './utils/run.ts'
 
 const DEPS = {
@@ -15,7 +15,7 @@ const DEPS = {
     'vue': '2.7',
     'vue-template-compiler': '2.7', // @vue/test-utils@1 需要
   },
-  2: {
+  2.6: {
     'unplugin-vue2-script-setup': 'latest',
     '@vue/composition-api': 'latest',
     '@vue/test-utils': '1',
@@ -29,7 +29,7 @@ const DEPS = {
 const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
 
 //const targetVersion = args._[0]
-let currentVersion
+/* let currentVersion
 if (pkg.devDependencies.vue) {
   if ((
     pkg.devDependencies.vue === '2'
@@ -41,26 +41,22 @@ if (pkg.devDependencies.vue) {
     pkg.devDependencies.vue.startsWith('2.')
     || pkg.devDependencies.vue.startsWith('~2.')
     || pkg.devDependencies.vue.startsWith('^2.')))
-    currentVersion = '2'
+    currentVersion = '2.6'
   else {
     currentVersion = '3'
   }
-}
+} */
 
-export default async (targetVersion, { vue2deps, vue3deps, force = false }) => {
-  if (currentVersion && currentVersion !== targetVersion && !force) {
-    const yes = await Confirm.prompt({
-      type: 'confirm',
-      message: `Current Vue version is ${currentVersion}, switch to ${targetVersion}？`,
-    })
-    if (!yes)
-      return
-  }
+export default async (targetVersion, { vue2deps, vue3deps }) => {
+  targetVersion ??= await Select.prompt({
+    message: 'Select Vue version',
+    options: Array.from(['3', '2.7', '2.6'], value => ({ name: value, value })),
+  })
 
   vue2deps?.split(',').map((v) => {
     let [name, version] = v.split('@')
     version ??= 'latest'
-    DEPS[2][name] = version
+    DEPS[2.6][name] = version
     DEPS[2.7][name] = version
   })
 
@@ -101,7 +97,7 @@ export default async (targetVersion, { vue2deps, vue3deps, force = false }) => {
     } catch (e) {
       // 可能会有 Unmet peer dependencies 的报错，不影响
     }
-    await run(`npx vue-demi-switch ${targetVersion}`)
+    await run(`npx vue-demi-switch ${targetVersion === '2.6' ? '2' : targetVersion}`)
   }
   await run('npx eslint ./package.json --fix')
 }
