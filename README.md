@@ -96,3 +96,13 @@ cl benchmark "pnpm i"
 ```
 
 <br>
+
+## 设置包管理器镜像
+
+让 `pnpm`、`yarn`、`npm` 在淘宝镜像和无镜像之间快速切换。
+
+```sh
+cl npmmirror
+```
+
+<br>

@@ -5,21 +5,21 @@ const cli = cac('cl')
 
 import benchmark from '../src/benchmark.ts'
 cli
-  .command('benchmark <cmd>', '[string] command benchmark')
+  .command('benchmark <cmd>', '[string] Command benchmark')
   .action((cmd: string) => {
     benchmark(cmd)
   })
 
 import clean from '../src/clean.ts'
 cli
-  .command('clean', 'remove node_modules')
+  .command('clean', 'Remove node_modules')
   .action(() => {
     clean()
   })
 
 import up from '../src/up.ts'
 cli
-  .command('up [include]', '[string] upgrade dependencies')
+  .command('up [include]', '[string] Upgrade dependencies')
   .action((include: string) => {
     try {
       up(include)
@@ -28,33 +28,40 @@ cli
     }
   })
 
+import npmmirror from '../src/npmmirror.ts'
+cli
+  .command('npmmirror', 'Set registries of pnpm, yarn, npm to npmmirror')
+  .action(() => {
+    npmmirror()
+  })
+
 import verifyCommit from '../src/verifyCommit.ts'
 cli
-  .command('verifyCommit', 'verify commit message')
+  .command('verifyCommit', 'Verify commit message')
   .action(() => {
     verifyCommit()
   })
 
 import release from '../src/release.ts'
 cli
-  .command('release', 'publish new version')
+  .command('release', 'Publish new version')
   .action((options) => {
     release(options)
   })
 
 import switchVue from '../src/switchVue.ts'
 cli
-  .command('switchVue [version]', '[string] switch vue version')
-  .option('--vue2deps <vue2deps>', `[string] dependencies of vue2`)
-  .option('--vue3deps <vue3deps>', `[string] dependencies of vue3`)
+  .command('switchVue [version]', '[string] Switch vue version')
+  .option('--vue2deps <vue2deps>', `[string] Dependencies of vue2`)
+  .option('--vue3deps <vue3deps>', `[string] Dependencies of vue3`)
   .action((version: string, options) => {
     switchVue(version, options)
   })
 
 import syncFork from '../src/syncFork.ts'
 cli
-  .command('syncFork <dir>', '[string] sync fork')
-  .option('--base <base>', `[string] directory base`)
+  .command('syncFork <dir>', '[string] Synchronize fork')
+  .option('--base <base>', `[string] Directory base`)
   .action((dir, options) => {
     syncFork(Array.from(dir.split(','), name => ({ name, value: (options.base ?? '') + name })))
   })
