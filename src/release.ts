@@ -20,6 +20,10 @@ const versionIncrements = [
 const inc = i => semver.inc(currentVersion, i, preId)
 
 export default async () => {
+  // 会把 pnpm 的 registry 也删掉
+  // 删镜像有1秒左右的延迟，提前删
+  await run('npm config delete registry')
+
   const t = await Select.prompt({
     message: 'Select release type',
     options: versionIncrements.map(name => ({ name, value: inc(name) })).concat([{ name: 'custom', value: 'custom' }]),
@@ -38,21 +42,10 @@ export default async () => {
   })
 
   if (!yes) {
+    // 会把 npm 的 registry 也设置上
+    await run('pnpm config set registry https://registry.npmmirror.com')
     return
   }
-
-  // 会把 pnpm 的 registry 也删掉
-  await run('npm config delete registry')
-  // 删镜像有延迟，需要等待一下
-  await new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      const registry = await run('npm config get registry', { stdout: 'piped' })
-      if (registry !== 'https://registry.npmjs.org/') {
-        throw new Error(`Incorrect npm registry: ${registry}`)
-      }
-      resolve(null)
-    }, 1000)
-  })
 
   pkg.version = targetVersion
   Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
