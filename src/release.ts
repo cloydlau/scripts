@@ -44,15 +44,6 @@ export default async () => {
   pkg.version = targetVersion
   Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
-  // 会把 pnpm 的 registry 也删掉
-  await run('npm config delete registry')
-  // 删镜像有1秒左右的延迟才生效
-  await new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      resolve(null)
-    }, 3000)
-  })
-
   try {
     console.log('\nPublishing...')
     await run('npm publish --access=public')
@@ -67,9 +58,6 @@ export default async () => {
     } else {
       throw e
     }
-  } finally {
-    // 会把 npm 的 registry 也设置上
-    await run('pnpm config set registry https://registry.npmmirror.com')
   }
 
   console.log('\nCommitting changes...')
