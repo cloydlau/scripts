@@ -80,7 +80,7 @@ cl syncFork "D:/workspace/up/aaa,D:/workspace/up/aaa/bbb,D:/workspace/up/aaa/ccc
 cl release
 ```
 
-例子：`"release": "vitest run && pnpm build && cl release"`
+例子：`"release": "npx case-police --fix && npx lint-staged && vitest run && pnpm build && cl release"`
 
 <br>
 

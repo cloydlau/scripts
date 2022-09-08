@@ -3,23 +3,23 @@ import { Input, Select, Confirm } from "https://deno.land/x/cliffy@v0.24.3/promp
 import * as semver from "https://deno.land/x/semver/mod.ts"
 import run from './utils/run.ts'
 
-const args = parseArgs(Deno.args)
-const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
-const { version: currentVersion, name } = pkg
-const preId =
-  args.preid ||
-  (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
-
-const versionIncrements = [
-  'patch',
-  'minor',
-  'major',
-  ...(preId ? ['prepatch', 'preminor', 'premajor', 'prerelease'] : [])
-]
-
-const inc = i => semver.inc(currentVersion, i, preId)
-
 export default async () => {
+  const args = parseArgs(Deno.args)
+  const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
+  const { version: currentVersion, name } = pkg
+  const preId =
+    args.preid ||
+    (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
+
+  const versionIncrements = [
+    'patch',
+    'minor',
+    'major',
+    ...(preId ? ['prepatch', 'preminor', 'premajor', 'prerelease'] : [])
+  ]
+
+  const inc = i => semver.inc(currentVersion, i, preId)
+
   const t = await Select.prompt({
     message: 'Select release type',
     options: versionIncrements.map(name => ({ name, value: inc(name) })).concat([{ name: 'custom', value: 'custom' }]),

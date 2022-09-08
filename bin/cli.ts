@@ -3,6 +3,13 @@
 import { cac } from 'https://unpkg.com/cac/mod.ts'
 const cli = cac('cl')
 
+import batchCommit from '../src/batchCommit.ts'
+cli
+  .command('batchCommit <message>', 'Batch commit')
+  .action((message) => {
+    batchCommit(message)
+  })
+
 import benchmark from '../src/benchmark.ts'
 cli
   .command('benchmark <cmd>', '[string] Command benchmark')

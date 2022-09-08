@@ -9,7 +9,7 @@
     "cl": "bin/cli.ts"
   },
   "scripts": {
-    "release": "cl release"
+    "release": "npx case-police --fix && npx lint-staged && cl release"
   },
   "files": [
     "bin",
@@ -23,7 +23,7 @@
   ],
   "repository": "https://github.com/cloydlau/scripts",
   "lint-staged": {
-    "*.{js,ts,tsx,vue,md}": [
+    "!(demo/**/*)*.{js,ts,tsx,vue,md}": [
       "eslint --fix"
     ]
   },

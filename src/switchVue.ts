@@ -26,9 +26,6 @@ const DEPS = {
   },
 }
 
-//const args = parseArgs(Deno.args)
-const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
-
 //const targetVersion = args._[0]
 /* let currentVersion
 if (pkg.devDependencies.vue) {
@@ -49,6 +46,9 @@ if (pkg.devDependencies.vue) {
 } */
 
 export default async (targetVersion, { vue2deps, vue3deps }) => {
+  //const args = parseArgs(Deno.args)
+  const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
+
   targetVersion ??= await Select.prompt({
     message: 'Select Vue version',
     options: Array.from(['3', '2.7', '2.6'], value => ({ name: value, value })),
