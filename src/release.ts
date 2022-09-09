@@ -52,16 +52,16 @@ export default async () => {
   Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
   try {
-    console.log('\nPublishing...')
+    console.log('\n%cPublishing...', 'color:#409EFF; font-weight:bold;')
     await run(['npm publish --access=public'])
-    console.log(`\n%cSuccessfully published ${name}@${targetVersion}`, 'color:green;font-weight:bold')
+    console.log(`\n%cSuccessfully published ${name}@${targetVersion}`, 'color:green; font-weight:bold;')
   } catch (e) {
     // 恢复版本号
     pkg.version = currentVersion
     Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
     if (e.stderr.match(/previously published/)) {
-      console.log(`\n%cSkipping already published: ${name}`, 'color:red;font-weight:bold')
+      console.log(`\n%cSkipping already published: ${name}`, 'color:red; font-weight:bold;')
     } else {
       throw e
     }
@@ -71,6 +71,6 @@ export default async () => {
   await run([`git tag v${targetVersion}`])
   await run([`git push origin refs/tags/v${targetVersion}`])
 
-  console.log('\nSyncing to cnpm...')
+  console.log('\n%cSyncing to cnpm...', 'color:#409EFF; font-weight:bold;')
   await run([`cnpm sync ${name}`])
 }

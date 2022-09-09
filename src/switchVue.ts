@@ -56,7 +56,7 @@ export default async (targetVersion?: VueVersion) => {
   try {
     pkgText = Deno.readTextFileSync('./package.json')
   } catch (_e) {
-    console.error('%cCan not find ./package.json', 'color:red;font-weight:bold')
+    console.error('%cCan not find ./package.json', 'color:red; font-weight:bold;')
     return
   }
 
