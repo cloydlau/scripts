@@ -13,3 +13,9 @@ Script collection written in Deno.
 3. `cl -h`
 
 <br>
+
+## Changelog
+
+Detailed changes for each release are documented in the [release notes](https://github.com/cloydlau/scripts/releases).
+
+<br>
