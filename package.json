@@ -1,6 +1,6 @@
 {
   "name": "@cloydlau/scripts",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": false,
   "description": "Script collection written in Deno.",
   "author": "cloydlau",
@@ -32,7 +32,8 @@
     "case-police": "latest",
     "eslint": "latest",
     "husky": "latest",
-    "lint-staged": "latest"
+    "lint-staged": "latest",
+    "typescript": "latest"
   },
   "engines": {
     "deno": "latest"
