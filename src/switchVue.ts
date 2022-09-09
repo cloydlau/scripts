@@ -52,16 +52,25 @@ export default async (targetVersion, { vue2deps, vue3deps }) => {
   targetVersion ??= await Select.prompt({
     message: 'Select Vue version',
     options: Array.from(['3', '2.7', '2.6'], value => ({ name: value, value })),
+    hint: "Press 'u' for up and 'd' for down.",
   })
 
-  vue2deps?.split(',').map((v) => {
+  // PowerShell
+  /* await run(`Set-Variable -Name "VUE_VERSION" -Value "${targetVersion}"`)
+  await run('$VUE_VERSION')
+  await run('($VUE_VERSION)')
+  await run('${VUE_VERSION}') */
+  // CMD
+  //await run(`set VUE_VERSION=${targetVersion}`)
+
+  vue2deps?.map((v) => {
     let [name, version] = v.split('@')
     version ??= 'latest'
     DEPS[2.6][name] = version
     DEPS[2.7][name] = version
   })
 
-  vue3deps?.split(',').map((v) => {
+  vue3deps?.map((v) => {
     let [name, version] = v.substring(1).split('@')
     name = v[0] + name // 兼容包名首字母为@的情况
     version ??= 'latest'
