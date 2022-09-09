@@ -3,74 +3,103 @@
 import { cac } from 'https://unpkg.com/cac/mod.ts'
 const cli = cac('cl')
 
-import batchCommit from '../src/batchCommit.ts'
-cli
-  .command('batchCommit <message>', 'Batch commit')
-  .action((message) => {
-    batchCommit(message)
-  })
-
-import benchmark from '../src/benchmark.ts'
-cli
-  .command('benchmark <cmd>', '[string] Command benchmark')
-  .action((cmd: string) => {
-    benchmark(cmd)
-  })
-
 import clean from '../src/clean.ts'
 cli
-  .command('clean', 'Remove node_modules')
+  .command('clean', `Remove node_modules
+  `)
   .action(() => {
     clean()
   })
 
-import up from '../src/up.ts'
+import release from '../src/release.ts'
 cli
-  .command('up [include]', '[string] Upgrade dependencies')
-  .action((include: string) => {
-    try {
-      up(include)
-    } catch (e) {
-      Deno.exit(1)
-    }
+  .command('release', `Publish new version
+    `)
+  .action(() => {
+    release()
   })
 
 import npmmirror from '../src/npmmirror.ts'
 cli
-  .command('npmmirror', 'Set registries of pnpm, yarn, npm to npmmirror')
+  .command('npmmirror', `Set or unset registry of npm, yarn & pnpm to npmmirror
+  `)
   .action(() => {
     npmmirror()
   })
 
 import verifyCommit from '../src/verifyCommit.ts'
 cli
-  .command('verifyCommit', 'Verify commit message')
+  .command('verifyCommit', `Verify commit message
+  `)
   .action(() => {
     verifyCommit()
   })
 
-import release from '../src/release.ts'
+import benchmark from '../src/benchmark.ts'
 cli
-  .command('release', 'Publish new version')
-  .action((options) => {
-    release(options)
+  .command('benchmark <...cmd>', `Command benchmark
+    # Example
+      cl benchmark pnpm i
+  `)
+  .action((cmd: string[]) => {
+    benchmark(cmd)
+  })
+
+import commit from '../src/commit.ts'
+cli
+  .command('commit <type> [subject]', `'git add' + 'git commit' + 'git push'
+    # Example
+      cl commit "docs" "fix typo"
+  `)
+  .action((type: string, subject?: string) => {
+    commit(type, subject)
+  })
+
+import up from '../src/up.ts'
+cli
+  .command('up [...include]', `Upgrade dependencies
+    # Example
+      cl up
+      cl up axios sass vite
+  `)
+  .action((include?: string[]) => {
+    up(include)
+  })
+
+import land from '../src/land.ts'
+cli
+  .command('land <...cmd>', `Run commands in all current subdirectories
+    # Example
+      cl land pnpm i
+      cl land cl up
+      cl land "git switch dev && git fetch up && git merge up/dev"
+  `)
+  .option('--all', `Whether to check all`)
+  .action((cmd: string[], { all = false }) => {
+    land(cmd, all)
   })
 
 import switchVue from '../src/switchVue.ts'
+import type { VueVersion } from '../src/switchVue.ts'
 cli
-  .command('switchVue [version]', '[string] Switch vue version')
-  .option('--vue2deps <vue2deps>', `[string] Dependencies of vue2`)
-  .option('--vue3deps <vue3deps>', `[string] Dependencies of vue3`)
-  .action((version: string, options) => {
-    switchVue(version, options)
-  })
-
-import syncFork from '../src/syncFork.ts'
-cli
-  .command('syncFork <dir>', '[string] Synchronize fork')
-  .option('--base <base>', `[string] Directory base`)
-  .action((dir, options) => {
-    syncFork(Array.from(dir.split(','), name => ({ name, value: (options.base ?? '') + name })))
+  .command('switchVue [version]', `Switch vue version to 2.6 / 2.7 / 3
+    # Example
+      cl switchVue
+      cl switchVue 2.7
+    # Config file: ./switchVue.config.json
+      {
+        "2": {
+          "vue-router": "3",
+          "element-ui": "latest"
+        },
+        "3": {
+          "vue-router": "latest",
+          "element-plus": "latest",
+        }
+      }
+  `)
+  .action((version?: VueVersion) => {
+    switchVue(version)
   })
 
 cli.help()

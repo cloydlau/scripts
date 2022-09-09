@@ -1,0 +1,10 @@
+{
+  "2": [
+    "vue-router@3",
+    "element-ui"
+  ],
+  "3": [
+    "vue-router@latest",
+    "element-plus"
+  ]
+}

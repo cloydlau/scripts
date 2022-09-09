@@ -67,7 +67,7 @@ export default async () => {
     }
   }
 
-  await run([`cl commit "release: v${targetVersion}"`])
+  await run([`cl commit "release" ${targetVersion}`])
   await run([`git tag v${targetVersion}`])
   await run([`git push origin refs/tags/v${targetVersion}`])
 
