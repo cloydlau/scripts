@@ -2,18 +2,14 @@
 
 Script collection written in Deno.
 
-```sh
-# Install Deno（PowerShell）
-irm https://x.deno.js.cn/install.ps1 | iex
+## Quick Start
 
-# Check Deno version
-deno -V
+1. Install Deno
+    - https://deno.land/#installation
+    - https://x.deno.js.cn/#%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E7%89%88
 
-# Install @cloydlau/scripts globally
-npm add @cloydlau/scripts -g
+2. `npm add @cloydlau/scripts -g`
 
-# Documentation
-cl -h
-```
+3. `cl -h`
 
 <br>
