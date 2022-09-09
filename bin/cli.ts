@@ -45,16 +45,6 @@ cli
     benchmark(cmd)
   })
 
-import commit from '../src/commit.ts'
-cli
-  .command('commit <type> [subject]', `'git add' + 'git commit' + 'git push'
-    # Example
-      cl commit "docs" "fix typo"
-  `)
-  .action((type: string, subject?: string) => {
-    commit(type, subject)
-  })
-
 import up from '../src/up.ts'
 cli
   .command('up [...include]', `Upgrade dependencies
@@ -62,8 +52,19 @@ cli
       cl up
       cl up axios sass vite
   `)
-  .action((include?: string[]) => {
+  .action((include: string[]) => {
     up(include)
+  })
+
+import push from '../src/push.ts'
+cli
+  .command('push [type] [...subject]', `'git add' + 'git commit' + 'git push'
+    # Example
+      cl push docs fix typo
+      cl push "chore(deps)!" "update all dependencies"
+  `)
+  .action((type = 'wip', subject: string[]) => {
+    push(type, subject.length ? subject : [type === 'wip' ? 'stash' : 'polish'])
   })
 
 import sow from '../src/sow.ts'
