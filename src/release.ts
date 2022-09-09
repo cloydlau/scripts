@@ -9,9 +9,6 @@ type OptionsType = {
 }[]
 
 export default async () => {
-  await run([`cl commit release v0.7.0`])
-  return
-
   const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
   const { version: currentVersion, name } = pkg
 
@@ -70,7 +67,7 @@ export default async () => {
     }
   }
 
-  await run([`cl commit "release" v${targetVersion}`])
+  await run([`cl commit release v${targetVersion}`])
   await run([`git tag v${targetVersion}`])
   await run([`git push origin refs/tags/v${targetVersion}`])
 

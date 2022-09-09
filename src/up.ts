@@ -21,6 +21,9 @@ async function updateVersion(this: {
 }
 
 export default async (include?: string[]) => {
+  await run(['cl commit test "test"'])
+  return
+
   console.log('\nChecking pnpm version...')
   const curVersion = await run({ cmd: ['pnpm -v'], stdout: 'piped' })
   const latestVersion = await run({ cmd: ['npm view pnpm version'], stdout: 'piped' })
