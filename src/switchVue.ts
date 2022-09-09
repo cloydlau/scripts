@@ -1,5 +1,5 @@
+import { Select } from 'https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts'
 import run from './utils/run.ts'
-import { Select } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 
 export type VueVersion = '3' | '2.7' | '2.6'
 const vueVersion: VueVersion[] = ['3', '2.7', '2.6']
@@ -32,7 +32,7 @@ const DEPS: {
   },
 }
 
-//const targetVersion = args._[0]
+// const targetVersion = args._[0]
 /* let currentVersion
 if (pkg.devDependencies.vue) {
   if ((
@@ -56,7 +56,7 @@ export default async (targetVersion?: VueVersion) => {
   try {
     pkgText = Deno.readTextFileSync('./package.json')
   } catch (_e) {
-    console.error(`%cCan not find ./package.json`, 'color:red;font-weight:bold')
+    console.error('%cCan not find ./package.json', 'color:red;font-weight:bold')
     return
   }
 
@@ -65,7 +65,7 @@ export default async (targetVersion?: VueVersion) => {
   targetVersion ??= await Select.prompt({
     message: 'Select Vue version',
     options: Array.from(vueVersion, value => ({ name: value, value })),
-    hint: "Press 'u' for up and 'd' for down.",
+    hint: 'Press \'u\' for up and \'d\' for down.',
   }) as VueVersion
 
   let config
@@ -81,7 +81,7 @@ export default async (targetVersion?: VueVersion) => {
   await run(['($VUE_VERSION)'])
   await run(['${VUE_VERSION}']) */
   // CMD
-  //await run([`set VUE_VERSION=${targetVersion}`])
+  // await run([`set VUE_VERSION=${targetVersion}`])
 
   if (config) {
     const { 2: vue2deps, 3: vue3deps } = JSON.parse(config)

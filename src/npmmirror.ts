@@ -1,12 +1,12 @@
+import { Confirm } from 'https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts'
 import run from './utils/run.ts'
-import { Confirm } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 
 const packageManagers = ['pnpm', 'yarn', 'npm']
 const npmmirror = 'https://registry.npmmirror.com'
 
 export default async () => {
   const yes = await Confirm.prompt({
-    message: `Set registry to npmmirror?`,
+    message: 'Set registry to npmmirror?',
   })
   if (yes) {
     await Promise.allSettled(Array.from(packageManagers, packageManager =>

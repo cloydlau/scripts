@@ -5,27 +5,29 @@
   "description": "Script collection written in Deno.",
   "author": "cloydlau",
   "license": "MIT",
+  "repository": "https://github.com/cloydlau/scripts",
+  "keywords": [
+    "deno",
+    "scripts",
+    "cac",
+    "cli",
+    "switchVue",
+    "verifyCommit",
+    "release",
+    "npmmirror"
+  ],
   "bin": {
     "cl": "bin/cli.ts"
-  },
-  "scripts": {
-    "release": "npx case-police --fix && npx lint-staged && cl release"
   },
   "files": [
     "bin",
     "src"
   ],
-  "keywords": [
-    "deno",
-    "scripts",
-    "cac",
-    "cli"
-  ],
-  "repository": "https://github.com/cloydlau/scripts",
-  "lint-staged": {
-    "!(demo/**/*)*.{js,ts,tsx,vue,md}": [
-      "eslint --fix"
-    ]
+  "engines": {
+    "deno": "latest"
+  },
+  "scripts": {
+    "release": "npx case-police --fix && npx lint-staged && cl release"
   },
   "devDependencies": {
     "@antfu/eslint-config": "latest",
@@ -35,8 +37,10 @@
     "lint-staged": "latest",
     "typescript": "latest"
   },
-  "engines": {
-    "deno": "latest"
+  "lint-staged": {
+    "!(demo/**/*)*.{js,ts,tsx,vue,md}": [
+      "eslint --fix"
+    ]
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

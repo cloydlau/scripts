@@ -1,11 +1,11 @@
+import { Confirm, Input, Select } from 'https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts'
+import * as semver from 'https://deno.land/x/semver/mod.ts'
+import type { Options, ReleaseType } from 'https://deno.land/x/semver/mod.ts'
 import run from './utils/run.ts'
-import { Input, Select, Confirm } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
-import * as semver from "https://deno.land/x/semver/mod.ts"
-import { ReleaseType, Options } from 'https://deno.land/x/semver/mod.ts'
 
 type OptionsType = {
-  name: string,
-  value: string,
+  name: string
+  value: string
 }[]
 
 export default async () => {
@@ -13,12 +13,12 @@ export default async () => {
   const { version: currentVersion, name } = pkg
 
   const releaseOptions: OptionsType = Array.from(['patch', 'minor', 'major'] as ReleaseType[],
-    name => ({ name, value: semver.inc(currentVersion, name) as string })),
-    prereleaseOptions: OptionsType = Array.from(['prerelease'],
-      name => ({ name, value: name })),
-    options = releaseOptions.concat(prereleaseOptions)
-      .concat([{ name: 'custom', value: 'custom' }]),
-    prereleaseType: OptionsType = Array.from(['alpha', 'beta', 'rc'], name => ({ name, value: semver.inc(currentVersion, "prerelease", name as Options) as string }))
+    name => ({ name, value: semver.inc(currentVersion, name) as string }))
+  const prereleaseOptions: OptionsType = Array.from(['prerelease'],
+    name => ({ name, value: name }))
+  const options = releaseOptions.concat(prereleaseOptions)
+    .concat([{ name: 'custom', value: 'custom' }])
+  const prereleaseType: OptionsType = Array.from(['alpha', 'beta', 'rc'], name => ({ name, value: semver.inc(currentVersion, 'prerelease', name as Options) as string }))
 
   const t = await Select.prompt({
     message: 'Select release type',
@@ -41,7 +41,7 @@ export default async () => {
   }
 
   const yes = await Confirm.prompt({
-    message: `Releasing v${targetVersion}. Confirm?`
+    message: `Releasing v${targetVersion}. Confirm?`,
   })
 
   if (!yes) {

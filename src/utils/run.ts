@@ -1,6 +1,6 @@
 export default async (cmdOrOptions: string[] | Deno.RunOptions) => {
   const Options: Deno.RunOptions = Array.isArray(cmdOrOptions) ? { cmd: cmdOrOptions } : cmdOrOptions
-  // @ts-ignore:
+  // @ts-expect-error: none
   // 'powershell', '-NoExit', '-Command', `{${cmd}}`
   Options.cmd.unshift('cmd', '/c')
   // Options.cmd.unshift('powershell', '-Command')

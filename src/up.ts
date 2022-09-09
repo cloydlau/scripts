@@ -44,7 +44,7 @@ export default async (include: string[]) => {
     try {
       pkgText = Deno.readTextFileSync('./package.json')
     } catch (_e) {
-      console.error(`%cCan not find ./package.json`, 'color:red;font-weight:bold')
+      console.error('%cCan not find ./package.json', 'color:red;font-weight:bold')
       return
     }
 
@@ -56,7 +56,7 @@ export default async (include: string[]) => {
     const devDependenciesUpdated = await updateVersion.call(pkg.devDependencies, include)
 
     if (dependenciesUpdated || devDependenciesUpdated) {
-      Deno.writeTextFileSync("./package.json", JSON.stringify(pkg, null, 2))
+      Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
       await run(['cl', 'push', 'chore(deps)', 'update specified dependencies'])
       try {
         console.log('\n')
@@ -65,7 +65,7 @@ export default async (include: string[]) => {
         // 可能会有 Unmet peer dependencies 的报错
       }
     } else {
-      console.log(`\n%cAll specified dependencies are up-to-date`, 'color:green;font-weight:bold')
+      console.log('\n%cAll specified dependencies are up-to-date', 'color:green;font-weight:bold')
     }
   } else {
     console.log('\nUpdating dependencies...')
