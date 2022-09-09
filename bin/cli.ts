@@ -66,17 +66,17 @@ cli
     up(include)
   })
 
-import land from '../src/land.ts'
+import sow from '../src/sow.ts'
 cli
-  .command('land <...cmd>', `Run commands in all current subdirectories
+  .command('sow <...cmd>', `Run commands in all current subdirectories
     # Example
-      cl land pnpm i
-      cl land cl up
-      cl land "git switch dev && git fetch up && git merge up/dev"
+      cl sow pnpm i
+      cl sow cl up
+      cl sow "git switch dev && git fetch up && git merge up/dev"
   `)
   .option('--all', `Whether to check all`)
   .action((cmd: string[], { all = false }) => {
-    land(cmd, all)
+    sow(cmd, all)
   })
 
 import switchVue from '../src/switchVue.ts'
