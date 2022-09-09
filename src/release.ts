@@ -1,33 +1,40 @@
-import parseArgs from 'https://deno.land/x/deno_minimist@v1.0.2/mod.ts'
+import run from './utils/run.ts'
 import { Input, Select, Confirm } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 import * as semver from "https://deno.land/x/semver/mod.ts"
-import run from './utils/run.ts'
+import { ReleaseType, Options } from 'https://deno.land/x/semver/mod.ts'
+
+type OptionsType = {
+  name: string,
+  value: string,
+}[]
 
 export default async () => {
-  const args = parseArgs(Deno.args)
   const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
   const { version: currentVersion, name } = pkg
-  const preId =
-    args.preid ||
-    (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
 
-  const versionIncrements = [
-    'patch',
-    'minor',
-    'major',
-    ...(preId ? ['prepatch', 'preminor', 'premajor', 'prerelease'] : [])
-  ]
-
-  const inc = i => semver.inc(currentVersion, i, preId)
+  const releaseOptions: OptionsType = Array.from(['patch', 'minor', 'major'] as ReleaseType[],
+    name => ({ name, value: semver.inc(currentVersion, name) as string })),
+    prereleaseOptions: OptionsType = Array.from(['prerelease'],
+      name => ({ name, value: name })),
+    options = releaseOptions.concat(prereleaseOptions)
+      .concat([{ name: 'custom', value: 'custom' }]),
+    prereleaseType: OptionsType = Array.from(['alpha', 'beta', 'rc'], name => ({ name, value: semver.inc(currentVersion, "prerelease", name as Options) as string }))
 
   const t = await Select.prompt({
     message: 'Select release type',
-    options: versionIncrements.map(name => ({ name, value: inc(name) })).concat([{ name: 'custom', value: 'custom' }]),
+    options,
   })
 
-  const targetVersion = t === 'custom' ? await Input.prompt({
-    message: 'Input custom version',
-  }) : t
+  const targetVersion = t === 'prerelease'
+    ? await Select.prompt({
+      message: 'Select prerelease type',
+      options: prereleaseType,
+    })
+    : t === 'custom'
+      ? await Input.prompt({
+        message: 'Input custom version',
+      })
+      : t
 
   if (!semver.valid(targetVersion)) {
     throw new Error(`invalid target version: ${targetVersion}`)
@@ -46,7 +53,7 @@ export default async () => {
 
   try {
     console.log('\nPublishing...')
-    await run('npm publish --access=public')
+    await run(['npm publish --access=public'])
     console.log(`\n%cSuccessfully published ${name}@${targetVersion}`, 'color:green;font-weight:bold')
   } catch (e) {
     // 恢复版本号
@@ -60,15 +67,10 @@ export default async () => {
     }
   }
 
-  console.log('\nCommitting changes...')
-  await run('git add -A')
-  await run(null, { cmd: ['git', 'commit', '-m', `release: v${targetVersion}`] })
-
-  console.log('\nPushing to GitHub...')
-  await run(`git tag v${targetVersion}`)
-  await run(`git push origin refs/tags/v${targetVersion}`)
-  await run(`git push`)
+  await run([`cl commit "release: v${targetVersion}"`])
+  await run([`git tag v${targetVersion}`])
+  await run([`git push origin refs/tags/v${targetVersion}`])
 
   console.log('\nSyncing to cnpm...')
-  await run(`cnpm sync ${name}`)
+  await run([`cnpm sync ${name}`])
 }
