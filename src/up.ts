@@ -21,7 +21,7 @@ async function updateVersion(this: {
 }
 
 export default async (include?: string[]) => {
-  await run(['cl commit test "test"'])
+  await run(['cl commit test a b'])
   return
 
   console.log('\nChecking pnpm version...')
