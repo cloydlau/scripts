@@ -20,10 +20,7 @@ async function updateVersion(this: {
   return updated
 }
 
-export default async (include?: string[]) => {
-  await run(['cl commit test "a b"'])
-  return
-
+export default async (include: string[]) => {
   console.log('\nChecking pnpm version...')
   const curVersion = await run({ cmd: ['pnpm -v'], stdout: 'piped' })
   const latestVersion = await run({ cmd: ['npm view pnpm version'], stdout: 'piped' })
@@ -42,7 +39,7 @@ export default async (include?: string[]) => {
     await run([`pnpm config set store-dir ${storeDir}`])
   }
 
-  if (include?.length) {
+  if (include.length) {
     let pkgText
     try {
       pkgText = Deno.readTextFileSync('./package.json')
@@ -60,7 +57,7 @@ export default async (include?: string[]) => {
 
     if (dependenciesUpdated || devDependenciesUpdated) {
       Deno.writeTextFileSync("./package.json", JSON.stringify(pkg, null, 2))
-      await run(['cl commit chore(deps) "update specified dependencies"'])
+      await run(['cl', 'push', 'chore(deps)', 'update specified dependencies'])
       try {
         console.log('\n')
         await run(['pnpm i'])

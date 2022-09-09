@@ -1,7 +1,7 @@
 import run from './utils/run.ts'
 import { Checkbox } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 
-export default async (cmd: string[], all = false) => {
+export default async (cmd: string[], all: boolean) => {
   const realPath = Deno.realPathSync('.')
 
   const dirs = Deno.readDirSync('.'), options: { name: string, value: string, checked: boolean }[] = []

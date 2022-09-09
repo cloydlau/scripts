@@ -20,7 +20,7 @@ export default async () => {
       run([`${packageManager} config delete registry`])))
     await Promise.allSettled(Array.from(packageManagers, packageManager =>
       run({ cmd: [`${packageManager} config get registry`], stdout: 'piped' }).then((registry) => {
-        console.log(`${packageManager} registry has been reset to: ${registry}`)
+        console.log(`%c${packageManager} registry has been reset to: ${registry}`, 'color:red;font-weight:bold')
       })))
   }
 }
