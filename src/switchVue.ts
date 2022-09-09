@@ -1,8 +1,14 @@
-//import parseArgs from 'https://deno.land/x/deno_minimist@v1.0.2/mod.ts'
-import { Select } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 import run from './utils/run.ts'
+import { Select } from "https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts"
 
-const DEPS = {
+export type VueVersion = '3' | '2.7' | '2.6'
+const vueVersion: VueVersion[] = ['3', '2.7', '2.6']
+
+const DEPS: {
+  [key in VueVersion]: {
+    [key: string]: string
+  }
+} = {
   3: {
     '@vitejs/plugin-vue': 'latest',
     '@vue/compiler-sfc': 'latest',
@@ -45,56 +51,72 @@ if (pkg.devDependencies.vue) {
   }
 } */
 
-export default async (targetVersion, { vue2deps, vue3deps }) => {
-  //const args = parseArgs(Deno.args)
-  const pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
+export default async (targetVersion?: VueVersion) => {
+  let pkgText
+  try {
+    pkgText = Deno.readTextFileSync('./package.json')
+  } catch (_e) {
+    console.error(`%cCan not find ./package.json`, 'color:red;font-weight:bold')
+    return
+  }
+
+  const pkg = JSON.parse(pkgText)
 
   targetVersion ??= await Select.prompt({
     message: 'Select Vue version',
-    options: Array.from(['3', '2.7', '2.6'], value => ({ name: value, value })),
+    options: Array.from(vueVersion, value => ({ name: value, value })),
     hint: "Press 'u' for up and 'd' for down.",
-  })
+  }) as VueVersion
+
+  let config
+  try {
+    config = await Deno.readTextFile('./switchVue.config.json')
+  } catch (_e) {
+    //
+  }
 
   // PowerShell
-  /* await run(`Set-Variable -Name "VUE_VERSION" -Value "${targetVersion}"`)
-  await run('$VUE_VERSION')
-  await run('($VUE_VERSION)')
-  await run('${VUE_VERSION}') */
+  /* await run([`Set-Variable -Name "VUE_VERSION" -Value "${targetVersion}"`])
+  await run(['$VUE_VERSION'])
+  await run(['($VUE_VERSION)'])
+  await run(['${VUE_VERSION}']) */
   // CMD
-  //await run(`set VUE_VERSION=${targetVersion}`)
+  //await run([`set VUE_VERSION=${targetVersion}`])
 
-  vue2deps?.map((v) => {
-    let [name, version] = v.split('@')
-    version ??= 'latest'
-    DEPS[2.6][name] = version
-    DEPS[2.7][name] = version
-  })
-
-  vue3deps?.map((v) => {
-    let [name, version] = v.substring(1).split('@')
-    name = v[0] + name // 兼容包名首字母为@的情况
-    version ??= 'latest'
-    DEPS[3][name] = version
-  })
+  if (config) {
+    const { 2: vue2deps, 3: vue3deps } = JSON.parse(config)
+    DEPS[2.6] = {
+      ...DEPS[2.6],
+      ...vue2deps,
+    }
+    DEPS[2.7] = {
+      ...DEPS[2.7],
+      ...vue2deps,
+    }
+    DEPS[3] = {
+      ...DEPS[3],
+      ...vue3deps,
+    }
+  }
 
   let changed = false
 
-  for (const k in DEPS) {
-    if (k !== targetVersion) {
-      for (const k2 in DEPS[k]) {
+  for (const ver in DEPS) {
+    if (ver !== targetVersion) {
+      for (const deps in DEPS[ver as keyof typeof DEPS]) {
         // 删除非目标版本的依赖
-        if (pkg.devDependencies[k2] && !DEPS[targetVersion][k2]) {
-          delete pkg.devDependencies[k2]
+        if (pkg.devDependencies[deps] && !DEPS[targetVersion][deps]) {
+          delete pkg.devDependencies[deps]
           changed = true
         }
       }
     }
   }
 
-  for (const k in DEPS[targetVersion]) {
+  for (const targetDeps in DEPS[targetVersion]) {
     // 添加目标版本的依赖
-    if (pkg.devDependencies[k] !== DEPS[targetVersion][k]) {
-      pkg.devDependencies[k] = DEPS[targetVersion][k]
+    if (pkg.devDependencies[targetDeps] !== DEPS[targetVersion][targetDeps]) {
+      pkg.devDependencies[targetDeps] = DEPS[targetVersion][targetDeps]
       changed = true
     }
   }
@@ -103,11 +125,11 @@ export default async (targetVersion, { vue2deps, vue3deps }) => {
     Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
     try {
-      await run('pnpm i')
-    } catch (e) {
+      await run(['pnpm i'])
+    } catch (_e) {
       // 可能会有 Unmet peer dependencies 的报错，不影响
     }
-    await run(`npx vue-demi-switch ${targetVersion === '2.6' ? '2' : targetVersion}`)
+    await run([`npx vue-demi-switch ${targetVersion === '2.6' ? '2' : targetVersion}`])
   }
-  await run('npx eslint ./package.json --fix')
+  await run(['npx eslint ./package.json --fix'])
 }
