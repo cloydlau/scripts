@@ -1,7 +1,7 @@
 #!/usr/bin/env deno run --allow-all --unstable
 
 import { cac } from 'https://unpkg.com/cac/mod.ts'
-import clean from '../src/clean.ts'
+import reinstall from '../src/reinstall.ts'
 import release from '../src/release.ts'
 import npmmirror from '../src/npmmirror.ts'
 import verifyCommit from '../src/verifyCommit.ts'
@@ -14,26 +14,22 @@ import type { VueVersion } from '../src/switchVue.ts'
 
 const cli = cac('cl')
 cli
-  .command('clean', `Remove node_modules
-  `)
+  .command('reinstall', 'Run a fresh install after removing node_modules and lock files\n')
   .action(() => {
-    clean()
+    reinstall()
   })
 cli
-  .command('release', `Publish new version
-    `)
+  .command('release', 'Publish new version\n')
   .action(() => {
     release()
   })
 cli
-  .command('npmmirror', `Set or unset registry of npm, yarn & pnpm to npmmirror
-  `)
+  .command('npmmirror', 'Set or unset registry of npm, yarn & pnpm to npmmirror\n')
   .action(() => {
     npmmirror()
   })
 cli
-  .command('verifyCommit', `Verify commit message
-  `)
+  .command('verifyCommit', 'Verify commit message\n')
   .action(() => {
     verifyCommit()
   })

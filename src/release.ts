@@ -1,6 +1,6 @@
-import { Confirm, Input, Select } from 'https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts'
-import * as semver from 'https://deno.land/x/semver/mod.ts'
-import type { Options, ReleaseType } from 'https://deno.land/x/semver/mod.ts'
+import { Confirm, Input, Select } from 'https://deno.land/x/cliffy@v0.25.0/prompt/mod.ts'
+import * as semver from 'https://deno.land/x/semver@v1.4.1/mod.ts'
+import type { Options, ReleaseType } from 'https://deno.land/x/semver@v1.4.1/mod.ts'
 import run from './utils/run.ts'
 
 type OptionsType = {
@@ -23,12 +23,14 @@ export default async () => {
   const t = await Select.prompt({
     message: 'Select release type',
     options,
+    hint: 'Press \'u\' for up and \'d\' for down.',
   })
 
   const targetVersion = t === 'prerelease'
     ? await Select.prompt({
       message: 'Select prerelease type',
       options: prereleaseType,
+      hint: 'Press \'u\' for up and \'d\' for down.',
     })
     : t === 'custom'
       ? await Input.prompt({

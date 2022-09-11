@@ -1,4 +1,4 @@
-import { Select } from 'https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts'
+import { Select } from 'https://deno.land/x/cliffy@v0.25.0/prompt/mod.ts'
 import run from './utils/run.ts'
 
 export type VueVersion = '3' | '2.7' | '2.6'

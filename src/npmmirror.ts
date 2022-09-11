@@ -1,4 +1,4 @@
-import { Confirm } from 'https://deno.land/x/cliffy@v0.24.3/prompt/mod.ts'
+import { Confirm } from 'https://deno.land/x/cliffy@v0.25.0/prompt/mod.ts'
 import run from './utils/run.ts'
 
 const packageManagers = ['pnpm', 'yarn', 'npm']
