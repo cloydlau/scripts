@@ -35,7 +35,7 @@ export default async (include: string[]) => {
     console.log('\nSetting pnpm registry to \"npmmirror\"...')
     await run(['pnpm config set registry https://registry.npmmirror.com'])
 
-    console.log(`\nRecovering pnpm store-dir to ${storeDir}`)
+    console.log(`\nRecovering pnpm store-dir to ${storeDir}...`)
     await run([`pnpm config set store-dir ${storeDir}`])
   }
 

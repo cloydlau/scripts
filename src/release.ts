@@ -71,6 +71,6 @@ export default async () => {
   await run([`git tag v${targetVersion}`])
   await run([`git push origin refs/tags/v${targetVersion}`])
 
-  console.log('\n%cSyncing to cnpm...', 'color:#409EFF; font-weight:bold;')
+  console.log('\n%cUpdating \'npmmirror\'...', 'color:#409EFF; font-weight:bold;')
   await run([`cnpm sync ${name}`])
 }

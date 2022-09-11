@@ -18,7 +18,9 @@ export default async (cmd: string[]) => {
     hint: 'Press \'u\' for up and \'d\' for down.',
   })
 
+  const cmdStr = cmd.join(' ')
   for (const cwd of cwds) {
+    console.log(`\n%cRunning "${cmdStr}" in ${cwd}...`, 'color:#409EFF; font-weight:bold;')
     await run({ cmd, cwd })
   }
 }
