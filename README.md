@@ -2,7 +2,7 @@
 
 Script collection written in Deno.
 
-## Quick Start
+## Usage
 
 1. Install Deno
     - https://deno.land/#installation
