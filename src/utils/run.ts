@@ -5,12 +5,12 @@ export default async (cmdOrOptions: string[] | Deno.RunOptions) => {
 
   // cmd /c
   // powershell -Command {${cmd}}
-  Options.cmd.unshift("powershell", "-c")
+  Options.cmd.unshift('powershell', '-c')
 
   const p = Deno.run(Options)
   const { code } = await p.status() // (*1); wait here for child to finish
   p.close()
-  if (code === 0 && Options.stdout === "piped") {
+  if (code === 0 && Options.stdout === 'piped') {
     return new TextDecoder().decode(await p.output()).trim()
   }
 }
