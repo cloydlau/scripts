@@ -34,7 +34,7 @@ export default async () => {
   }
 
   console.log('%cRemoving .\\node_modules...', 'color:red; font-weight:bold;')
-  await benchmark(['rd', '/s', '/q', '.\\node_modules'])
+  await benchmark(['rd', '/q', '/s', '.\\node_modules'])
   if (cmd !== 'nah') {
     await run([cmd])
   }
