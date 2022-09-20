@@ -57,7 +57,7 @@ export default async (include: string[]) => {
 
     if (dependenciesUpdated || devDependenciesUpdated) {
       Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
-      await run(['cl', 'push', 'chore(deps)', 'update specified dependencies'])
+      await run(['cl', 'push', '"chore(deps)"', 'update specified dependencies'])
       try {
         console.log('\n')
         await run(['pnpm i'])
