@@ -29,12 +29,12 @@ export default async () => {
   })) {
     for (const { value } of options.lockFile) {
       console.log(`%cRemoving ${value}...`, 'color:red; font-weight:bold;')
-      await run(['rd', value])
+      await run(['Remove-Item', value])
     }
   }
 
   console.log('%cRemoving .\\node_modules...', 'color:red; font-weight:bold;')
-  await benchmark(['rd', '/q', '/s', '.\\node_modules'])
+  await benchmark(['Remove-Item', '.\\node_modules', '-Recurse'])
   if (cmd !== 'nah') {
     await run([cmd])
   }
