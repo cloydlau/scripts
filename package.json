@@ -1,6 +1,6 @@
 {
   "name": "@cloydlau/scripts",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "private": false,
   "description": "Script collection written in Deno.",
   "author": "cloydlau",
