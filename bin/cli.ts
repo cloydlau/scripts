@@ -57,7 +57,7 @@ cli
       cl push "chore(deps)!" "update all dependencies"
   `)
   .action((type = 'wip', subject: string[]) => {
-    push(type, subject.length ? subject : [type === 'wip' ? 'stash' : 'polish'])
+    push(type, subject.length ? subject : [type === 'wip' ? 'stash' : 'negligible'])
   })
 cli
   .command('sow <...cmd>', `Run commands in all current subdirectories
