@@ -1,6 +1,6 @@
 import run from './utils/run.ts'
 
-export default async (type: string, subject = ['negligible']) => {
+export default async (type: string, subject: string[]) => {
   const m = `"${type}: ${subject.join(' ')}"`
   console.log(`\n%cCommitting ${m}...`, 'color:#409EFF; font-weight:bold;')
   await run(['git add -A'])
