@@ -122,7 +122,7 @@ export default async (targetVersion?: VueVersion) => {
   }
 
   if (changed) {
-    console.log(`\n%cSwitching to Vue ${targetVersion}`, 'color:#409EFF; font-weight:bold;')
+    console.log(`\n%cSwitching to Vue ${targetVersion}...`, 'color:#409EFF; font-weight:bold;')
     Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
     try {
