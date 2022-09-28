@@ -3,7 +3,6 @@
 import { cac } from 'https://unpkg.com/cac/mod.ts'
 import reinstall from '../src/reinstall.ts'
 import release from '../src/release.ts'
-import npmmirror from '../src/npmmirror.ts'
 import verifyCommit from '../src/verifyCommit.ts'
 import benchmark from '../src/benchmark.ts'
 import up from '../src/up.ts'
@@ -22,11 +21,6 @@ cli
   .command('release', 'Publish new version\n')
   .action(() => {
     release()
-  })
-cli
-  .command('npmmirror', 'Set or unset registry of npm, yarn & pnpm to npmmirror\n')
-  .action(() => {
-    npmmirror()
   })
 cli
   .command('verifyCommit', 'Verify commit message\n')

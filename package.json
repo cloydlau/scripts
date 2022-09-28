@@ -13,8 +13,7 @@
     "cli",
     "switchVue",
     "verifyCommit",
-    "release",
-    "npmmirror"
+    "release"
   ],
   "bin": {
     "cl": "bin/cli.ts"
