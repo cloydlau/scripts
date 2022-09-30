@@ -1,10 +1,10 @@
 {
-  "2": [
-    "vue-router@3",
-    "element-ui"
-  ],
-  "3": [
-    "vue-router@latest",
-    "element-plus"
-  ]
+  "2": {
+    "vue-router": "3",
+    "element-ui": "latest"
+  },
+  "3": {
+    "vue-router": "latest",
+    "element-plus": "latest"
+  }
 }
