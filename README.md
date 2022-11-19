@@ -1,6 +1,12 @@
 # @cloydlau/scripts
 
-Script collection written in Deno.
+<p align="left">
+  <a href="https://npmjs.com/package/@cloydlau/scripts">
+    <img alt="npm package" src="https://img.shields.io/npm/v/@cloydlau/scripts.svg?logo=npm">
+  </a>
+</p>
+
+> Script collection written in Deno.
 
 ## Usage
 
