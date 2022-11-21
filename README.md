@@ -1,8 +1,9 @@
-# @cloydlau/scripts
+# @cloydlau/scripts <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
+
+[npm-version-svg]: https://versionbadg.es/cloydlau/@cloydlau/scripts.svg
+[package-url]: https://npmjs.com/package/@cloydlau/scripts
 
 <p align="left">
-  <a href="https://npmjs.com/package/@cloydlau/scripts"><img alt="npm package" src="https://img.shields.io/npm/v/@cloydlau/scripts.svg?logo=npm"></a>
-  <br>
   <a href="https://eslint.org"><img alt="code style" src="https://img.shields.io/badge/code_style-eslint-4B32C3.svg"></a>
   <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-conventional-fe5196.svg"></a>
 </p>
