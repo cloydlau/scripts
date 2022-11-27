@@ -3,7 +3,6 @@
 import { cac } from 'https://unpkg.com/cac/mod.ts'
 import reinstall from '../src/reinstall.ts'
 import release from '../src/release.ts'
-import verifyCommit from '../src/verifyCommit.ts'
 import benchmark from '../src/benchmark.ts'
 import up from '../src/up.ts'
 import push from '../src/push.ts'
@@ -21,11 +20,6 @@ cli
   .command('release', 'Publish new version\n')
   .action(() => {
     release()
-  })
-cli
-  .command('verifyCommit', 'Verify commit message\n')
-  .action(() => {
-    verifyCommit()
   })
 cli
   .command('benchmark <...cmd>', `Command benchmark
