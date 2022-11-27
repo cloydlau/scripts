@@ -1,4 +1,4 @@
-import { Confirm, Input, Select } from 'https://deno.land/x/cliffy@v0.25.0/prompt/mod.ts'
+import { Confirm, Input, Select } from 'https://deno.land/x/cliffy@v0.25.4/prompt/mod.ts'
 import * as semver from 'https://deno.land/x/semver@v1.4.1/mod.ts'
 import type { Options, ReleaseType } from 'https://deno.land/x/semver@v1.4.1/mod.ts'
 import run from './utils/run.ts'
