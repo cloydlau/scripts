@@ -21,7 +21,7 @@ async function updateVersion(this: {
 }
 
 export default async (include: string[]) => {
-  console.log('\n%cChecking Deno version...', 'color:#409EFF; font-weight:bold;')
+  console.log('\n%cUpgrading Deno...', 'color:#409EFF; font-weight:bold;')
   await run(['deno upgrade'])
 
   console.log('\n%cChecking PNPM version...', 'color:#409EFF; font-weight:bold;')
