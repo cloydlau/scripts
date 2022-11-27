@@ -29,18 +29,15 @@
     "release": "npx case-police --fix && npx lint-staged && cl release"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "latest",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
     "case-police": "latest",
-    "eslint": "latest",
     "husky": "latest",
-    "lint-staged": "latest",
     "typescript": "latest"
   },
   "lint-staged": {
     "{src,__tests__}/**.*": [
-      "eslint --fix"
+      "deno lint"
     ]
   },
   "publishConfig": {
