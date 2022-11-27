@@ -21,21 +21,24 @@ async function updateVersion(this: {
 }
 
 export default async (include: string[]) => {
-  console.log('\n%cChecking pnpm version...', 'color:#409EFF; font-weight:bold;')
-  const curVersion = await run({ cmd: ['pnpm -v'], stdout: 'piped' })
-  const latestVersion = await run({ cmd: ['npm view pnpm version'], stdout: 'piped' })
+  console.log('\n%cChecking Deno version...', 'color:#409EFF; font-weight:bold;')
+  await run(['deno upgrade'])
 
-  if (curVersion === latestVersion) {
-    console.log('%cpnpm is up-to-date', 'color:grey; font-weight:bold;')
+  console.log('\n%cChecking PNPM version...', 'color:#409EFF; font-weight:bold;')
+  const pnpmCurrentVersion = await run({ cmd: ['pnpm -v'], stdout: 'piped' })
+  const pnpmLatestVersion = await run({ cmd: ['npm view pnpm version'], stdout: 'piped' })
+
+  if (pnpmCurrentVersion === pnpmLatestVersion) {
+    console.log('%cPNPM is up-to-date', 'color:grey; font-weight:bold;')
   } else {
-    console.log(`%cUpdating pnpm version from ${curVersion} to ${latestVersion}...`, 'color:red; font-weight:bold;')
+    console.log(`%cUpdating PNPM version from ${pnpmCurrentVersion} to ${pnpmLatestVersion}...`, 'color:red; font-weight:bold;')
     const storeDir = await run({ cmd: ['pnpm config get store-dir'], stdout: 'piped' })
     await run(['npm add pnpm -g'])
 
-    console.log('\nSetting pnpm registry to \"npmmirror\"...')
+    console.log('\nSetting PNPM registry to \"npmmirror\"...')
     await run(['pnpm config set registry https://registry.npmmirror.com'])
 
-    console.log(`\nRecovering pnpm store-dir to ${storeDir}...`)
+    console.log(`\nRecovering PNPM store-dir to ${storeDir}...`)
     await run([`pnpm config set store-dir ${storeDir}`])
   }
 
