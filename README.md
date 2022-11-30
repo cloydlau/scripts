@@ -4,7 +4,6 @@
 [package-url]: https://npmjs.com/package/@cloydlau/scripts
 
 <p align="left">
-  <a href="https://eslint.org"><img alt="code style" src="https://img.shields.io/badge/code_style-ESLint-4B32C3.svg?logo=eslint"></a>
   <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-Conventional-FE5196.svg?logo=conventionalcommits&logoColor=white"></a>
 </p>
 
