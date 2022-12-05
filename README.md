@@ -1,13 +1,18 @@
-# @cloydlau/scripts <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
+<h1 align="center">
+  <a href="https://npmjs.com/package/@cloydlau/scripts" target="_blank" rel="noopener noreferrer">
+    @cloydlau/scripts <sup><img alt="version" src="https://versionbadg.es/cloydlau/scripts.svg"></sup>
+  </a>
+</h1>
 
-[npm-version-svg]: https://versionbadg.es/cloydlau/@cloydlau/scripts.svg
-[package-url]: https://npmjs.com/package/@cloydlau/scripts
+<p align="center">
+  Script collection written in Deno
+</p>
 
-<p align="left">
+<p align="center">
   <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-Conventional-FE5196.svg?logo=conventionalcommits&logoColor=white"></a>
 </p>
 
-> Script collection written in Deno.
+<br>
 
 ## Usage
 
