@@ -10,7 +10,11 @@ export default async (cmdOrOptions: string[] | Deno.RunOptions) => {
   const p = Deno.run(Options)
   const { code } = await p.status() // (*1); wait here for child to finish
   p.close()
-  if (code === 0 && Options.stdout === 'piped') {
-    return new TextDecoder().decode(await p.output()).trim()
+  if (code === 0) {
+    if (Options.stdout === 'piped') {
+      return new TextDecoder().decode(await p.output()).trim()
+    }
+  } else {
+    return Promise.reject()
   }
 }
