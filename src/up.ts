@@ -42,23 +42,33 @@ export default async (include: string[]) => {
     await run([`pnpm config set store-dir ${storeDir}`])
   }
 
+  let pkg
+  try {
+    pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
+  } catch (_e) {
+    console.error('%cCan not find ./package.json', 'color:red; font-weight:bold;')
+  }
+
+  let packageManagerVersionUpdated = false
+  if (pkg?.packageManager) {
+    const [packageManager, packageManagerVersion] = pkg.packageManager.split('@')
+    if (packageManager === 'pnpm' && packageManagerVersion !== pnpmLatestVersion) {
+      pkg.packageManager = `pnpm@${pnpmLatestVersion}`
+      packageManagerVersionUpdated = true
+    }
+  }
+
   if (include.length) {
-    let pkgText
-    try {
-      pkgText = Deno.readTextFileSync('./package.json')
-    } catch (_e) {
-      console.error('%cCan not find ./package.json', 'color:red; font-weight:bold;')
+    if (!pkg) {
       return
     }
-
-    const pkg = JSON.parse(pkgText)
 
     console.log('\n%cChecking dependencies...', 'color:#409EFF; font-weight:bold;')
     const dependenciesUpdated = await updateVersion.call(pkg.dependencies, include)
     console.log('\n%cChecking devDependencies...', 'color:#409EFF; font-weight:bold;')
     const devDependenciesUpdated = await updateVersion.call(pkg.devDependencies, include)
 
-    if (dependenciesUpdated || devDependenciesUpdated) {
+    if (dependenciesUpdated || devDependenciesUpdated || packageManagerVersionUpdated) {
       Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
       await run(['cl', 'push', '"chore(deps)"', 'update specified dependencies'])
       try {
@@ -71,6 +81,10 @@ export default async (include: string[]) => {
       console.log('\n%cAll specified dependencies are up-to-date', 'color:green; font-weight:bold;')
     }
   } else {
+    if (packageManagerVersionUpdated) {
+      Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
+    }
+
     await run(['pnpm upgrade'])
   }
 }
