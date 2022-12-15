@@ -27,14 +27,14 @@ export default async () => {
   if (await Confirm.prompt({
     message: 'Remove lock files before installing',
   })) {
-    try {
-      for (const { value } of options.lockFile) {
-        console.log(`%cRemoving ${value}...`, 'color:red; font-weight:bold;')
+    for (const { value } of options.lockFile) {
+      console.log(`%cRemoving ${value}...`, 'color:red; font-weight:bold;')
+      try {
         await run(['Remove-Item', value])
-      }
-    } catch (e) {
-      if (e) {
-        console.error(e)
+      } catch (e) {
+        if (e) {
+          console.error(e)
+        }
       }
     }
   }

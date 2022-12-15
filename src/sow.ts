@@ -21,6 +21,12 @@ export default async (cmd: string[]) => {
   const cmdStr = cmd.join(' ')
   for (const cwd of cwds) {
     console.log(`\n%cRunning "${cmdStr}" in ${cwd}...`, 'color:#409EFF; font-weight:bold;')
-    await run({ cmd, cwd })
+    try {
+      await run({ cmd, cwd })
+    } catch (e) {
+      if (e) {
+        console.error(e)
+      }
+    }
   }
 }
