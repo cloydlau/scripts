@@ -1,11 +1,11 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@commitlint/cli': latest
-  '@commitlint/config-conventional': latest
-  case-police: latest
-  husky: latest
-  typescript: latest
+  '@commitlint/cli': ^17.3.0
+  '@commitlint/config-conventional': ^17.3.0
+  case-police: ^0.5.10
+  husky: ^8.0.2
+  typescript: ^4.9.4
 
 devDependencies:
   '@commitlint/cli': 17.3.0
@@ -126,7 +126,7 @@ packages:
       '@types/node': 14.18.34
       chalk: 4.1.2
       cosmiconfig: 7.1.0
-      cosmiconfig-typescript-loader: 4.2.0_rlet5slz3ltveuzxg6noqqckla
+      cosmiconfig-typescript-loader: 4.3.0_rlet5slz3ltveuzxg6noqqckla
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -428,8 +428,8 @@ packages:
       through2: 4.0.2
     dev: true
 
-  /cosmiconfig-typescript-loader/4.2.0_rlet5slz3ltveuzxg6noqqckla:
-    resolution: {integrity: sha512-NkANeMnaHrlaSSlpKGyvn2R4rqUDeE/9E5YHx+b4nwo0R8dZyAqcih8/gxpCZvqWP9Vf6xuLpMSzSgdVEIM78g==}
+  /cosmiconfig-typescript-loader/4.3.0_rlet5slz3ltveuzxg6noqqckla:
+    resolution: {integrity: sha512-NTxV1MFfZDLPiBMjxbHRwSh5LaLcPMwNdCutmnHJCKoVnlvldPWlllonKwrsRJ5pYZBIBGRWWU2tfvzxgeSW5Q==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@types/node': '*'

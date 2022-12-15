@@ -1,7 +1,7 @@
 {
   "name": "@cloydlau/scripts",
-  "packageManager": "pnpm@7.18.1",
-  "version": "0.11.2",
+  "packageManager": "pnpm@7.18.2",
+  "version": "0.11.3",
   "private": false,
   "description": "Script collection written in Deno.",
   "author": "cloydlau",
@@ -30,11 +30,11 @@
     "release": "npx case-police --fix && npx lint-staged && cl release"
   },
   "devDependencies": {
-    "@commitlint/cli": "latest",
-    "@commitlint/config-conventional": "latest",
-    "case-police": "latest",
-    "husky": "latest",
-    "typescript": "latest"
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "case-police": "^0.5.10",
+    "husky": "^8.0.2",
+    "typescript": "^4.9.4"
   },
   "lint-staged": {
     "{src,__tests__}/**.*": [
