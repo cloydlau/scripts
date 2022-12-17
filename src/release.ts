@@ -55,7 +55,7 @@ export default async () => {
 
   try {
     console.log('\n%cPublishing...', 'color:#409EFF; font-weight:bold;')
-    await run(['npm publish --access=public'])
+    await run(['npm publish'])
     console.log(`\n%cSuccessfully published ${name}@${targetVersion}`, 'color:green; font-weight:bold;')
   } catch (e) {
     // 恢复版本号
