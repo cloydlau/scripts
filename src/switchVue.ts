@@ -126,7 +126,7 @@ export default async (targetVersion?: VueVersion) => {
     Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
 
     try {
-      await run(['pnpm i'])
+      await run(['cl up'])
     } catch (_e) {
       // 可能会有 Unmet peer dependencies 的报错，不影响
     }
