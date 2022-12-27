@@ -21,6 +21,11 @@ async function updateVersion(this: {
 }
 
 export default async (include: string[]) => {
+  if (await run({ cmd: ['git diff'], stdout: 'piped' })) {
+    console.error('%cYou have uncommitted changes.', 'color:red; font-weight:bold;')
+    return
+  }
+
   console.log('\n%cUpgrading Deno...', 'color:#409EFF; font-weight:bold;')
   await run(['deno upgrade'])
 
