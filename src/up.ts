@@ -3,7 +3,7 @@ import run from './utils/run.ts'
 async function updateVersion(this: {
   [key: string]: string
 }, include: string[]) {
-  let updated = false
+  const updatedList: string[] = []
   for (const pkgName of include) {
     const latestVersion = await run({ cmd: [`npm view ${pkgName} version`], stdout: 'piped' }) as string
     if (this[pkgName]) {
@@ -12,12 +12,12 @@ async function updateVersion(this: {
       } else {
         console.log(`%c${pkgName} is updated from ${this[pkgName]} to ${latestVersion}`, 'color:red; font-weight:bold;')
         this[pkgName] = latestVersion
-        updated = true
+        updatedList.push(pkgName)
       }
     }
   }
 
-  return updated
+  return updatedList
 }
 
 export default async (include: string[]) => {
@@ -69,13 +69,18 @@ export default async (include: string[]) => {
     }
 
     console.log('\n%cChecking dependencies...', 'color:#409EFF; font-weight:bold;')
-    const dependenciesUpdated = await updateVersion.call(pkg.dependencies, include)
+    const updatedDependencies = await updateVersion.call(pkg.dependencies, include)
     console.log('\n%cChecking devDependencies...', 'color:#409EFF; font-weight:bold;')
-    const devDependenciesUpdated = await updateVersion.call(pkg.devDependencies, include)
+    const updatedDevDependencies = await updateVersion.call(pkg.devDependencies, include)
 
-    if (dependenciesUpdated || devDependenciesUpdated || packageManagerVersionUpdated) {
+    const updatedList = [...updatedDependencies, ...updatedDevDependencies]
+    if (packageManagerVersionUpdated) {
+      updatedList.unshift('pnpm')
+    }
+
+    if (updatedList.length) {
       Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
-      await run(['cl', 'push', '"chore(deps)"', 'update specified dependencies'])
+      await run(['cl', 'push', '"chore(deps)"', `update ${updatedList.join(', ')}`])
       try {
         console.log('\n')
         await run(['pnpm i'])
@@ -91,5 +96,6 @@ export default async (include: string[]) => {
     }
 
     await run(['pnpm upgrade'])
+    await run(['cl', 'push', '"chore(deps)"', 'update dependencies'])
   }
 }
