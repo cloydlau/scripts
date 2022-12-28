@@ -17,7 +17,7 @@ export default async (cmdOrOptions: string[] | Deno.RunOptions) => {
   if (code === 0) {
     return output
   } else {
-    console.log(`\n%cFailed cmd: ${cmd}\n`, 'color:red; font-weight:bold;')
+    // console.log(`\n%cFailed cmd: ${cmd}\n`, 'color:red; font-weight:bold;')
     return Promise.reject(output)
   }
 }
