@@ -17,8 +17,9 @@ const options = {
 }
 
 export default async () => {
-  const nodeVersion = await run({ cmd: ['node -v'], stdout: 'piped' })
-  const supportPNPM = Number(nodeVersion.substring(1).split('.')[0]) >= 14
+  // 'node -v' output in Node 14 has a 'Using Node ' prefix
+  const nodeVersion = (await run({ cmd: ['node -v'], stdout: 'piped' })).replace('Using Node ', '').replace('v', '')
+  const supportPNPM = Number(nodeVersion.split('.')[0]) >= 14
   if (supportPNPM) {
     options.packageManager.unshift({ name: 'pnpm', value: 'pnpm' })
   }
