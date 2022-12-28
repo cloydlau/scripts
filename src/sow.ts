@@ -1,4 +1,4 @@
-import { Checkbox } from 'https://deno.land/x/cliffy@v0.25.4/prompt/mod.ts'
+import { Checkbox } from 'https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts'
 import run from './utils/run.ts'
 
 export default async (cmd: string[]) => {
@@ -15,7 +15,6 @@ export default async (cmd: string[]) => {
     message: 'Pick directories',
     options,
     minOptions: 1,
-    hint: 'Press \'u\' for up and \'d\' for down.',
   })
 
   const cmdStr = cmd.join(' ')

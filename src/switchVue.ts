@@ -1,4 +1,4 @@
-import { Select } from 'https://deno.land/x/cliffy@v0.25.4/prompt/mod.ts'
+import { Select } from 'https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts'
 import run from './utils/run.ts'
 
 export type VueVersion = '3' | '2.7' | '2.6'
@@ -65,7 +65,6 @@ export default async (targetVersion?: VueVersion) => {
   targetVersion ??= await Select.prompt({
     message: 'Select Vue version',
     options: Array.from(vueVersion, value => ({ name: value, value })),
-    hint: 'Press \'u\' for up and \'d\' for down.',
   }) as VueVersion
 
   let config
