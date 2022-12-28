@@ -30,12 +30,13 @@ export default async () => {
   })
 
   const isFresh = await Confirm.prompt({
-    message: 'Remove node_modules & lock files before installing',
+    message: 'Remove node_modules & Lockfile before installing',
   })
 
   if (isFresh) {
     console.log(`%cRemoving ${options.lockFile[packageManager]}...\n`, 'color:red; font-weight:bold;')
-    await run([`Remove-Item ${options.lockFile[packageManager]} -ErrorAction Ignore`])
+    // Lockfile may not exist
+    await run([`Remove-Item ${options.lockFile[packageManager]} -ErrorAction Ignore`]).catch(_reason => { })
 
     console.log('%cRemoving .\\node_modules...\n', 'color:red; font-weight:bold;')
     try {
