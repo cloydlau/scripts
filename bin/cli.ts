@@ -1,7 +1,7 @@
 #!/usr/bin/env deno run --allow-all --unstable
 
 import { cac } from 'https://unpkg.com/cac/mod.ts'
-import reinstall from '../src/reinstall.ts'
+import i from '../src/i.ts'
 import release from '../src/release.ts'
 import benchmark from '../src/benchmark.ts'
 import up from '../src/up.ts'
@@ -12,17 +12,17 @@ import type { VueVersion } from '../src/switchVue.ts'
 
 const cli = cac('cl')
 cli
-  .command('reinstall', 'Run a fresh install after removing node_modules and lock files\n')
+  .command('i', 'Run a fresh install with specified package manager.\n')
   .action(() => {
-    reinstall()
+    i()
   })
 cli
-  .command('release', 'Publish new version\n')
+  .command('release', 'Publish new version.\n')
   .action(() => {
     release()
   })
 cli
-  .command('benchmark <...cmd>', `Command benchmark
+  .command('benchmark <...cmd>', `Command benchmark.
     # Example
       cl benchmark pnpm i
   `)
@@ -30,7 +30,7 @@ cli
     benchmark(cmd)
   })
 cli
-  .command('up [...include]', `Upgrade dependencies
+  .command('up [...include]', `Upgrade dependencies.
     # Example
       cl up
       cl up axios sass vite
@@ -39,7 +39,7 @@ cli
     up(include)
   })
 cli
-  .command('push [type] [...subject]', `'git add' + 'git commit' + 'git push'
+  .command('push [type] [...subject]', `'git add' + 'git commit' + 'git push'.
     # Example
       cl push docs fix typo
       cl push "chore(deps)!" "update all dependencies"
@@ -48,7 +48,7 @@ cli
     push(type, subject.length ? subject : [type === 'wip' ? 'stash' : 'negligible'])
   })
 cli
-  .command('sow <...cmd>', `Run commands in all current subdirectories
+  .command('sow <...cmd>', `Run commands in all current subdirectories.
     # Example
       cl sow pnpm i
       cl sow cl up
@@ -58,7 +58,7 @@ cli
     sow(cmd)
   })
 cli
-  .command('switchVue [version]', `Switch vue version to 2.6 / 2.7 / 3
+  .command('switchVue [version]', `Switch vue version to 2.6 / 2.7 / 3.
     # Example
       cl switchVue
       cl switchVue 2.7

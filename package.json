@@ -23,9 +23,6 @@
     "bin",
     "src"
   ],
-  "engines": {
-    "deno": "latest"
-  },
   "scripts": {
     "release": "npx case-police --fix && npx lint-staged && cl release"
   },
