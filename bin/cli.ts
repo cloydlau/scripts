@@ -1,6 +1,7 @@
 #!/usr/bin/env deno run --allow-all --unstable
 
 import { cac } from 'https://unpkg.com/cac/mod.ts'
+import dev from '../src/dev.ts'
 import i from '../src/i.ts'
 import release from '../src/release.ts'
 import benchmark from '../src/benchmark.ts'
@@ -11,6 +12,11 @@ import switchVue from '../src/switchVue.ts'
 import type { VueVersion } from '../src/switchVue.ts'
 
 const cli = cac('cl')
+cli
+  .command('dev', 'Shortcut for starting dev server.\n')
+  .action(() => {
+    dev()
+  })
 cli
   .command('i', 'Run a fresh install with specified package manager.\n')
   .action(() => {
