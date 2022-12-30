@@ -2,12 +2,12 @@ import run from './utils/run.ts'
 
 export default async (script: string[]) => {
   if (!script.length) {
+    console.error('%cEmpty command', 'color:red; font-weight:bold;')
     return
   }
 
-  const scripts = JSON.parse(Deno.readTextFileSync('./package.json')).scripts
-
   if (script[0] === 'dev') {
+    const scripts = JSON.parse(Deno.readTextFileSync('./package.json')).scripts
     if (scripts.dev) {
       await run(['npm run dev'])
     } else if (scripts.serve) {
