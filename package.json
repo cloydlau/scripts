@@ -11,10 +11,7 @@
     "deno",
     "scripts",
     "cac",
-    "cli",
-    "switchVue",
-    "verifyCommit",
-    "release"
+    "cli"
   ],
   "bin": {
     "cl": "bin/cli.ts"
