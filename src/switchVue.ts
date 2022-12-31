@@ -123,13 +123,13 @@ export default async (targetVersion?: VueVersion) => {
   if (changed) {
     console.log(`\n%cSwitching to Vue ${targetVersion}...`, 'color:#409EFF; font-weight:bold;')
     Deno.writeTextFileSync('./package.json', JSON.stringify(pkg, null, 2))
+    await run(['npx eslint ./package.json --fix'])
 
     try {
-      await run(['cl up'])
+      await run(['pnpm i'])
     } catch (_e) {
       // 可能会有 Unmet peer dependencies 的报错，不影响
     }
     await run([`npx vue-demi-switch ${targetVersion === '2.6' ? '2' : targetVersion}`])
   }
-  await run(['npx eslint ./package.json --fix'])
 }
