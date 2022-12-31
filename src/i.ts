@@ -69,7 +69,8 @@ export default async () => {
         console.log(`%cInstalling ${packageManager}...`, 'color:#409EFF; font-weight:bold;')
         await run([`npm i ${packageManager} -g`])
         if (packageManager !== 'cnpm') {
-          await run([`${packageManager} config set registry https://registry.npmmirror.com`])
+          const npmRegistry = await run({ cmd: ['npm config get registry'], stdout: 'piped' })
+          await run([`${packageManager} config set registry ${npmRegistry}`])
         }
         await run([`${packageManager} config set store-dir D:\.${packageManager}-store`])
         await benchmark([`${packageManager} install`])
