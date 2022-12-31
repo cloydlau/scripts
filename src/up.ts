@@ -1,4 +1,5 @@
 import run from './utils/run.ts'
+import updatePackageManager from './utils/updatePackageManager.ts'
 
 async function updateVersion(this: {
   [key: string]: string
@@ -29,23 +30,7 @@ export default async (include: string[]) => {
   console.log('\n%cUpgrading Deno...', 'color:#409EFF; font-weight:bold;')
   await run(['deno upgrade'])
 
-  console.log('\n%cChecking PNPM version...', 'color:#409EFF; font-weight:bold;')
-  const pnpmCurrentVersion = await run({ cmd: ['pnpm -v'], stdout: 'piped' })
-  const pnpmLatestVersion = await run({ cmd: ['npm view pnpm version'], stdout: 'piped' })
-
-  if (pnpmCurrentVersion === pnpmLatestVersion) {
-    console.log('%cPNPM is up-to-date', 'color:grey; font-weight:bold;')
-  } else {
-    console.log(`%cUpdating PNPM version from ${pnpmCurrentVersion} to ${pnpmLatestVersion}...`, 'color:red; font-weight:bold;')
-    const storeDir = await run({ cmd: ['pnpm config get store-dir'], stdout: 'piped' })
-    await run(['npm i pnpm -g'])
-
-    console.log('\nSetting PNPM registry to \"npmmirror\"...')
-    await run(['pnpm config set registry https://registry.npmmirror.com'])
-
-    console.log(`\nRecovering PNPM store-dir to ${storeDir}...`)
-    await run([`pnpm config set store-dir ${storeDir}`])
-  }
+  await updatePackageManager('pnpm')
 
   let pkg
   try {

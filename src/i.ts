@@ -1,6 +1,7 @@
 import { Confirm, Select } from 'https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts'
 import benchmark from './benchmark.ts'
 import run from './utils/run.ts'
+import updatePackageManager from './utils/updatePackageManager.ts'
 
 const options = {
   packageManager: [
@@ -51,6 +52,10 @@ export default async () => {
         await benchmark(['rimraf .\\node_modules'])
       }
     }
+  }
+
+  if (packageManager !== 'npm') {
+    await updatePackageManager(packageManager)
   }
 
   try {
