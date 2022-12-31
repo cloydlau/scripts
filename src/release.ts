@@ -71,6 +71,10 @@ export default async () => {
   await run([`git tag v${targetVersion}`])
   await run([`git push origin refs/tags/v${targetVersion}`])
 
-  console.log('\n%cUpdating \'npmmirror\'...', 'color:#409EFF; font-weight:bold;')
-  await run([`cnpm sync ${name}`])
+  try {
+    // cnpm may not installed
+    await run([`cnpm sync ${name}`])
+  } catch (_e) {
+    // fix(deno lint): Empty block statement
+  }
 }
