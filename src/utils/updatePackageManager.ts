@@ -9,13 +9,14 @@ export default async (packageManager: string) => {
     console.log(`%c${packageManager} is up-to-date`, 'color:grey; font-weight:bold;')
   } else {
     console.log(`%cUpdating ${packageManager} version from ${currentVersion} to ${latestVersion}...`, 'color:red; font-weight:bold;')
+    const registry = await run({ cmd: [`${packageManager} config get registry`], stdout: 'piped' })
     const storeDir = await run({ cmd: [`${packageManager} config get store-dir`], stdout: 'piped' })
     await run([`npm i ${packageManager} -g`])
 
-    console.log(`\nSetting ${packageManager} registry to \"npmmirror\"...`)
-    await run([`${packageManager} config set registry https://registry.npmmirror.com`])
+    console.log(`\nnRecovering registry to ${registry}...`)
+    await run([`${packageManager} config set registry ${registry}`])
 
-    console.log(`\nRecovering ${packageManager} store-dir to ${storeDir}...`)
+    console.log(`\nRecovering store-dir to ${storeDir}...`)
     await run([`${packageManager} config set store-dir ${storeDir}`])
   }
 }
