@@ -16,13 +16,9 @@
 
 ## Usage
 
-1. Install Deno
-    - https://deno.land/#installation
-    - https://x.deno.js.cn/#%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E7%89%88
-
-2. `npm i @cloydlau/scripts -g`
-
-3. `cl -h`
+1. [Install Deno](https://deno.land/#installation)
+2. Run `npm i -g @cloydlau/scripts`
+3. Run `cl -h`
 
 <br>
 
