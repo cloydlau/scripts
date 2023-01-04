@@ -1,6 +1,6 @@
 {
   "name": "@cloydlau/scripts",
-  "packageManager": "pnpm@7.21.0",
+  "packageManager": "pnpm@7.22.0",
   "version": "0.12.1",
   "private": false,
   "description": "Script collection written in Deno.",
