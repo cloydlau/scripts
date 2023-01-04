@@ -24,10 +24,10 @@
     "release": "npx case-police --fix && npx lint-staged && cl release"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.3.0",
-    "@commitlint/config-conventional": "^17.3.0",
+    "@commitlint/cli": "^17.4.0",
+    "@commitlint/config-conventional": "^17.4.0",
     "case-police": "^0.5.10",
-    "husky": "^8.0.2",
+    "husky": "^8.0.3",
     "typescript": "^4.9.4"
   },
   "lint-staged": {
