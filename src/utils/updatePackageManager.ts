@@ -14,7 +14,7 @@ export default async (packageManager: string, pkg?: object): Promise<boolean> =>
     const storeDir = await run({ cmd: [`${packageManager} config get store-dir`], stdout: 'piped' })
     await run([`npm i ${packageManager} -g`])
 
-    console.log(`\nnRecovering registry to ${registry}...`)
+    console.log(`\nRecovering registry to ${registry}...`)
     await run([`${packageManager} config set registry ${registry}`])
 
     console.log(`\nRecovering store-dir to ${storeDir}...`)
