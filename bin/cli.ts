@@ -80,8 +80,9 @@ cli
   })
 cli
   .command('[...script]', 'Task runner for package.json scripts.\n')
-  .action((script: string[]) => {
-    runNpmScripts(script)
+  .allowUnknownOptions()
+  .action((script: string[], options: object) => {
+    runNpmScripts(script, options)
   })
 
 cli.help()
