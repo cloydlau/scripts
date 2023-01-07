@@ -70,11 +70,5 @@ export default async () => {
   await run([`cl push release v${targetVersion}`])
   await run([`git tag v${targetVersion}`])
   await run([`git push origin refs/tags/v${targetVersion}`])
-
-  try {
-    // cnpm may not installed
-    await run([`cnpm sync ${name}`])
-  } catch (_e) {
-    // fix(deno lint): Empty block statement
-  }
+  await run([`cnpm sync ${name}`])
 }
