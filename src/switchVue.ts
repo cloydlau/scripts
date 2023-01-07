@@ -71,7 +71,7 @@ export default async (targetVersion?: VueVersion) => {
   try {
     config = await Deno.readTextFile('./switchVue.config.json')
   } catch (_e) {
-    //
+    // fix(deno lint): Empty block statement
   }
 
   // PowerShell

@@ -22,18 +22,6 @@ async function updateVersion(this: {
 }
 
 export default async (include: string[]) => {
-  // 如果 Node 在当前主版本号内有更新，则升级
-  /* const npmRegistry = await run({ cmd: ['npm config get registry'], stdout: 'piped' })
-  const currentNodeVersion = await run({ cmd: ['node -v'], stdout: 'piped' })
-  const currentNodeMajorVersion = currentNodeVersion.match(/v\d+(?=\.)/)
-  const ltsNodeVersion = (await run({ cmd: ['fnm install --lts'], stdout: 'piped' })).match(/\bv\d+\.\d+\.\d+\b/)[0]
-  const ltsNodeMajorVersion = ltsNodeVersion.match(/v\d+(?=\.)/)
-
-  if (currentNodeVersion !== ltsNodeVersion && currentNodeMajorVersion === ltsNodeMajorVersion) {
-    await run(['npm add pnpm cnpm -g'])
-    await run([`pnpm config set registry ${npmRegistry}`])
-  } */
-
   if (await run({ cmd: ['git diff'], stdout: 'piped' })) {
     console.error('%cYou have uncommitted changes.', 'color:red; font-weight:bold;')
     return
@@ -41,6 +29,9 @@ export default async (include: string[]) => {
 
   console.log('\n%cUpgrading Deno...', 'color:#409EFF; font-weight:bold;')
   await run(['deno upgrade'])
+
+  // console.log('\n%cUpgrading Node...', 'color:#409EFF; font-weight:bold;')
+  // await run(['cl switchNode --lts'])
 
   let pkg
   try {
