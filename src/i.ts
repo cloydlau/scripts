@@ -1,4 +1,4 @@
-import { Confirm, Select } from 'https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts'
+import { Confirm, Select } from 'https://deno.land/x/cliffy@v0.25.7/prompt/mod.ts'
 import run from './utils/run.ts'
 import benchmark from './benchmark.ts'
 import updatePackageManager from './utils/updatePackageManager.ts'

@@ -1,4 +1,4 @@
-import { Select } from 'https://deno.land/x/cliffy@v0.25.6/prompt/mod.ts'
+import { Select } from 'https://deno.land/x/cliffy@v0.25.7/prompt/mod.ts'
 import run from './utils/run.ts'
 
 export type VueVersion = '3' | '2.7' | '2.6'
@@ -71,7 +71,7 @@ export default async (targetVersion?: VueVersion) => {
   try {
     config = await Deno.readTextFile('./switchVue.config.json')
   } catch (_e) {
-    //
+    // fix(deno lint): Empty block statement
   }
 
   // PowerShell

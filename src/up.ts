@@ -30,6 +30,9 @@ export default async (include: string[]) => {
   console.log('\n%cUpgrading Deno...', 'color:#409EFF; font-weight:bold;')
   await run(['deno upgrade'])
 
+  // console.log('\n%cUpgrading Node...', 'color:#409EFF; font-weight:bold;')
+  // await run(['cl switchNode --lts'])
+
   let pkg
   try {
     pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
