@@ -26,7 +26,7 @@ export default async () => {
   }
 
   const packageManager = await Select.prompt({
-    message: 'Choose a package manager',
+    message: 'Choose package manager',
     options: options.packageManager,
   })
 
