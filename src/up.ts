@@ -37,7 +37,7 @@ export default async (include: string[]) => {
   try {
     pkg = JSON.parse(Deno.readTextFileSync('./package.json'))
   } catch (_e) {
-    console.error('%cCan not find ./package.json', 'color:red; font-weight:bold;')
+    // fix(deno lint): Empty block statement
   }
 
   const isPackageManagerVersionInPackageJSONUpdated = await updatePackageManager('pnpm', pkg)
